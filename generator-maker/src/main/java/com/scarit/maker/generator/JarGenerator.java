@@ -4,7 +4,7 @@ import java.io.*;
 
 public class JarGenerator {
 
-    public static void doGenerator(String projectDir) throws IOException, InterruptedException {
+    public static void doGenerate(String projectDir) throws IOException, InterruptedException {
         
         //执行打包之前先清理之前的包
         //不同操作系统语句会有所不同

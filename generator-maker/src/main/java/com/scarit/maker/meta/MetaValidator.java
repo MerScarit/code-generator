@@ -4,8 +4,10 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
+import com.scarit.maker.meta.enums.FileGenerateTypeEnum;
+import com.scarit.maker.meta.enums.FileTypeEnum;
+import com.scarit.maker.meta.enums.ModelTypeEnum;
 
-import java.io.File;
 import java.nio.file.Paths;
 import java.util.List;
 
@@ -42,7 +44,7 @@ public class MetaValidator {
 
             String modelInfoType = modelInfo.getType();
             if (StrUtil.isEmpty(modelInfoType)) {
-                modelInfo.setType("String");
+                modelInfo.setType(ModelTypeEnum.STRING.getValue());
             }
         }
     }
@@ -61,7 +63,7 @@ public class MetaValidator {
 
         //inputRootPath: .source + sourceRootPath 的最后一个层级路径
         String inputRootPath = fileConfig.getInputRootPath();
-        String defaultInputRootPath = ".source" + File.separator + FileUtil.getLastPathEle(Paths.get(sourceRootPath)).getFileName().toString();
+        String defaultInputRootPath = ".source/" + FileUtil.getLastPathEle(Paths.get(sourceRootPath)).getFileName().toString();
         if (StrUtil.isEmpty(inputRootPath)) {
             fileConfig.setInputRootPath(defaultInputRootPath);
         }
@@ -75,7 +77,7 @@ public class MetaValidator {
 
         //fileConfigType: 设置默认文件类型为文件夹
         String fileConfigType = fileConfig.getType();
-        String defaultType = "dir";
+        String defaultType = FileTypeEnum.DIR.getValue();
         if (StrUtil.isEmpty(fileConfigType)) {
             fileConfig.setType(defaultType);
         }
@@ -104,11 +106,11 @@ public class MetaValidator {
             if (StrUtil.isBlank(type)) {
                 //无文件后缀
                 if (StrUtil.isBlank(FileUtil.getSuffix(inputPath))) {
-                    fileInfo.setType("dir");
+                    fileInfo.setType(FileTypeEnum.DIR.getValue());
                 }
                 //有文件后缀
                 else {
-                    fileInfo.setType("file");
+                    fileInfo.setType(FileTypeEnum.FILE.getValue());
                 } 
             }
             
@@ -117,11 +119,11 @@ public class MetaValidator {
             if (StrUtil.isBlank(generateType)) {
                 //为动态模版
                 if (inputPath.endsWith(".ftl")) {
-                    fileInfo.setGenerateType("dynamic");
+                    fileInfo.setGenerateType(FileGenerateTypeEnum.DYNAMIC.getValue());
                 }
                 //为静态模板
                 else {
-                    fileInfo.setGenerateType("static");
+                    fileInfo.setGenerateType(FileGenerateTypeEnum.STATIC.getValue());
                 } 
             }
         }
