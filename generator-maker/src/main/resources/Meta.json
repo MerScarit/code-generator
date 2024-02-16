@@ -1,0 +1,59 @@
+{
+  "name": "acm-template-pro-generator",
+  "description": "ACM 示例模板生成器",
+  "basePackage": "com.scarit",
+  "version": "1.0",
+  "author": "scarit",
+  "createTime": "2024-02-14",
+  "fileConfig": {
+    "inputRootPath": ".source/acm-template-pro",
+    "outputRootPath": "generated",
+    "sourceRootPath": "D:/Code-generator_total/generator/generator-demo-projects/acm-template-pro",
+    "type": "dir",
+    "files": [
+      {
+        "inputPath": "src/com/scarit/acm/MainTemplate.java.ftl",
+        "outputPath": "src/com/scarit/acm/MainTemplate.java",
+        "type": "file",
+        "generateType": "dynamic"
+      },
+      {
+        "inputPath": ".gitignore",
+        "outputPath": ".gitignore",
+        "type": "file",
+        "generateType": "static"
+      },
+      {
+        "inputPath": "README.md",
+        "outputPath": "README.md",
+        "type": "file",
+        "generateType": "static"
+      }
+    ]
+  },
+  "modelConfig": {
+    "models": [
+      {
+        "fieldName": "loop",
+        "type": "boolean",
+        "description": "是否生成循环",
+        "defaultValue": false,
+        "abbr": "l"
+      },
+      {
+        "fieldName": "author",
+        "type": "String",
+        "description": "作者注释",
+        "defaultValue": "adi",
+        "abbr": "a"
+      },
+      {
+        "fieldName": "outputText",
+        "type": "String",
+        "description": "输出信息",
+        "defaultValue": "输出总和 = ",
+        "abbr": "o"
+      }
+    ]
+  }
+}
