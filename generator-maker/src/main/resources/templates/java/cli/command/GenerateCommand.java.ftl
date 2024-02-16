@@ -15,7 +15,7 @@ public class GenerateCommand implements Callable<Integer> {
     /**
      * 1.在代码开头增加作者@Author 注释（增加代码）
      */
-    @Option(names = {<#if modelInfo.abbr??>"-${modelInfo.abbr}"</#if>, "--${modelInfo.fieldName}"}, <#if modelInfo.description??>description ="${modelInfo.description}"</#if> , interactive = true, arity = "0..1", echo = true)
+    @Option(names = {<#if modelInfo.abbr??>"-${modelInfo.abbr}"</#if>, "--${modelInfo.fieldName}"},<#if modelInfo.description??>description =${modelInfo.description?c}</#if> , interactive = true, arity = "0..1", echo = true)
     private ${modelInfo.type} ${modelInfo.fieldName}<#if modelInfo.defaultValue??> =${modelInfo.defaultValue?c}</#if>;
 </#list>
     @Override

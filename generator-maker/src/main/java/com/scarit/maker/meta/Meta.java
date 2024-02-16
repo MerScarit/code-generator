@@ -15,6 +15,7 @@ public class Meta {
     private String description;
     private String basePackage;
     private String version;
+    private boolean enableGitVersionControl;
     private String author;
     private String createTime;
     private FileConfig fileConfig;

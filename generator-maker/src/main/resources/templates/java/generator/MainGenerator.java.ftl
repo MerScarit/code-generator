@@ -30,7 +30,7 @@ public class MainGenerator {
     <#if fileInfo.generateType = "static">
         StaticGenerator.copyFilesByHutool(inputPath, outputPath);
     <#else>
-        DynamicGenerator.toDynamicGenerate(inputPath, outputPath,model);
+        DynamicGenerator.doGenerate(inputPath, outputPath,model);
     </#if>
 </#list>
     }

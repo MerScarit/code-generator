@@ -31,8 +31,7 @@ public class MainTemplate {
             System.out.println("${output}" + sum);
 <#if loop>            
         }
-</#if>        
-
+</#if>
         scanner.close();
     }
 }

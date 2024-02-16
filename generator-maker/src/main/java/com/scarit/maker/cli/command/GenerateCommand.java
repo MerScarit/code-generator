@@ -36,7 +36,7 @@ public class GenerateCommand implements Callable<Integer> {
         DataModel dataMedel = new DataModel();
         BeanUtil.copyProperties(this, dataMedel);
         System.out.println(dataMedel);
-        FileGenerator.doMainGen(dataMedel);
+        FileGenerator.doGenerate(dataMedel);
         return 0;
     }
 }

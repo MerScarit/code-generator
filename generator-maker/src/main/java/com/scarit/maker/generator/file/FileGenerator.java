@@ -1,6 +1,5 @@
 package com.scarit.maker.generator.file;
 
-import com.scarit.maker.model.DataModel;
 import freemarker.template.TemplateException;
 
 import java.io.File;
@@ -11,7 +10,7 @@ import java.io.IOException;
  */
 public class FileGenerator {
     
-    public static void doMainGen(Object model) throws TemplateException, IOException {
+    public static void doGenerate(Object model) throws TemplateException, IOException {
         //配置路径
         String projectPath = System.getProperty("user.dir");
         String parentpath = new File(projectPath).getParent();
@@ -25,7 +24,7 @@ public class FileGenerator {
         //生成静态文件
         StaticFileGenerator.copyFilesByHutool(staticInputPath,staticOutputPath);
         //生成动态文件
-        DynamicFileGenterator.toDynamicGenterate(dynamicInputPath,dynamicOutputPath,model);
+        DynamicFileGenterator.doGenerate(dynamicInputPath,dynamicOutputPath,model);
     }
 }
     

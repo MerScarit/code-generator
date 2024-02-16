@@ -12,7 +12,7 @@ import java.nio.file.Paths;
 
 public class DynamicFileGenterator {
 
-    public static void toDynamicGenterate(String inputPath, String outputPath,Object dataModel) throws IOException, TemplateException {
+    public static void doGenerate(String inputPath, String outputPath, Object dataModel) throws IOException, TemplateException {
         
         
         //创建freemarker配置对象，并指定版本号

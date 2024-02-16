@@ -3,10 +3,11 @@
   "description": "ACM 示例模板生成器",
   "basePackage": "com.scarit",
   "version": "1.0",
+  "enableGitVersionControl": true,
   "author": "scarit",
   "createTime": "2024-02-14",
   "fileConfig": {
-    "inputRootPath": ".source/acm-template-pro",
+    "inputRootPath": "source/acm-template-pro",
     "outputRootPath": "generated",
     "sourceRootPath": "D:/Code-generator_total/generator/generator-demo-projects/acm-template-pro",
     "type": "dir",
@@ -48,7 +49,7 @@
         "abbr": "a"
       },
       {
-        "fieldName": "outputText",
+        "fieldName": "output",
         "type": "String",
         "description": "输出信息",
         "defaultValue": "输出总和 = ",
