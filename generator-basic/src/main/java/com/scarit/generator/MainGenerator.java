@@ -23,7 +23,7 @@ public class MainGenerator {
         String dynamicInputPath = projectPath + File.separator + "src/main/resources/templates/MainTemplate.java.ftl";
         String dynamicOutputPath = projectPath + File.separator + "acm-template/src/com/scarit/acm/MainTemplate.java ";
         //生成静态文件
-        StaticGenerator.doStatic(staticInputPath,staticOutputPath);
+        StaticGenerator.copyByHtool(staticInputPath,staticOutputPath);
         //生成动态文件
         DynamicGenterator.toDynamicGenterate(dynamicInputPath,dynamicOutputPath,model);
     }

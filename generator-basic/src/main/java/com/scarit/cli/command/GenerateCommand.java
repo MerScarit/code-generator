@@ -36,7 +36,6 @@ public class GenerateCommand implements Callable<Integer> {
     public Integer call() throws Exception {
         MainTemplateConfig mainTemplateConfig = new MainTemplateConfig();
         BeanUtil.copyProperties(this, mainTemplateConfig);
-        System.out.println(mainTemplateConfig);
         MainGenerator.doMainGen(mainTemplateConfig);
         return 0;
     }

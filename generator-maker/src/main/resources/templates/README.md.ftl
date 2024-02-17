@@ -28,6 +28,6 @@ ${modelInfo?index+1})${modelInfo.fieldName}
 类型：${modelInfo.type}
 描述：${modelInfo.description}
 默认值：${modelInfo.defaultValue?c}
-缩写：-${modelInfo.abbr}
+<#if modelInfo.abbr??>缩写：-${modelInfo.abbr?c}</#if>
 
 </#list>

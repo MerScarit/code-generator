@@ -17,21 +17,41 @@ public class MainGenerator {
     * @throws TemplateException
     * @throws IOException
     */
-    public static void doGenerator(Object model) throws TemplateException, IOException, InterruptedException {
+    public static void doGenerator(DataModel model) throws TemplateException, IOException, InterruptedException {
         
         String inputRootPath = "${fileConfig.inputRootPath}";
         String outputRootPath = "${fileConfig.outputRootPath}";
 
         String inputPath;
         String outputPath;
-<#list fileConfig.files as fileInfo>
-    inputPath = new File(inputRootPath,"${fileInfo.inputPath}").getAbsolutePath();
-    outputPath = new File(outputRootPath, "${fileInfo.outputPath}").getAbsolutePath();
-    <#if fileInfo.generateType = "static">
-        StaticGenerator.copyFilesByHutool(inputPath, outputPath);
-    <#else>
-        DynamicGenerator.doGenerate(inputPath, outputPath,model);
-    </#if>
+
+<#list modelConfig.models as modelInfo>
+        ${modelInfo.type} ${modelInfo.fieldName} = model.${modelInfo.fieldName};
 </#list>
+
+    <#list fileConfig.files as fileInfo>
+        <#if fileInfo.condition??>
+        if(${fileInfo.condition}){    
+            
+            inputPath = new File(inputRootPath,"${fileInfo.inputPath}").getAbsolutePath();
+            outputPath = new File(outputRootPath, "${fileInfo.outputPath}").getAbsolutePath();
+            <#if fileInfo.generateType = "static">
+            StaticGenerator.copyFilesByHutool(inputPath, outputPath);
+            <#else>
+            DynamicGenerator.doGenerate(inputPath, outputPath,model);
+            </#if>
+        }
+            
+        <#else>
+            
+        inputPath = new File(inputRootPath,"${fileInfo.inputPath}").getAbsolutePath();
+        outputPath = new File(outputRootPath, "${fileInfo.outputPath}").getAbsolutePath();
+            <#if fileInfo.generateType = "static">
+        StaticGenerator.copyFilesByHutool(inputPath, outputPath);
+            <#else>
+        DynamicGenerator.doGenerate(inputPath, outputPath,model);
+            </#if>
+        </#if>
+    </#list>
     }
 }

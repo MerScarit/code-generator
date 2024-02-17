@@ -14,7 +14,7 @@ public class MainTemplateConfig {
     /**
      *  1.在代码开头增加作者@Author 注释（增加代码）
      */
-    private String author ="ADI";
+    private String author = "ADI";
     /**
      * 2.修改程序输出的信息提示
      */
