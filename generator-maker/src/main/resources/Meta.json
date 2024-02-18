@@ -9,27 +9,34 @@
   "fileConfig": {
     "inputRootPath": ".source/acm-template-pro",
     "outputRootPath": "generated",
-    "sourceRootPath": "D:/Code-generator_total/generator/generator-demo-projects/acm-template-pro",
+    "sourceRootPath": "F:/code/code-generator/generator-demo-projects/acm-template-pro",
     "type": "dir",
     "files": [
+      {
+        "groupKey": "git",
+        "groupName": "是否生成gitignore等",
+        "type": "group",
+        "condition": "needGit",
+        "files": [
+          {
+            "inputPath": ".gitignore",
+            "outputPath": ".gitignore",
+            "type": "file",
+            "generateType": "static"
+          },
+          {
+            "inputPath": "README.md",
+            "outputPath": "README.md",
+            "type": "file",
+            "generateType": "static"
+          }
+        ]
+      },
       {
         "inputPath": "src/com/scarit/acm/MainTemplate.java.ftl",
         "outputPath": "src/com/scarit/acm/MainTemplate.java",
         "type": "file",
         "generateType": "dynamic"
-      },
-      {
-        "inputPath": ".gitignore",
-        "outputPath": ".gitignore",
-        "type": "file",
-        "generateType": "static",
-        "condition": "needGit"
-      },
-      {
-        "inputPath": "README.md",
-        "outputPath": "README.md",
-        "type": "file",
-        "generateType": "static"
       }
     ]
   },
@@ -50,18 +57,27 @@
         "abbr": "l"
       },
       {
-        "fieldName": "author",
-        "type": "String",
-        "description": "作者注释",
-        "defaultValue": "adi",
-        "abbr": "a"
-      },
-      {
-        "fieldName": "output",
-        "type": "String",
-        "description": "输出信息",
-        "defaultValue": "输出总和 = ",
-        "abbr": "o"
+        "groupKey": "mainTemplate",
+        "groupName": "核心模版",
+        "type": "MainTemplate",
+        "description": "用于生成核心模板文件",
+        "condition": "loop",
+        "models": [
+          {
+            "fieldName": "author",
+            "type": "String",
+            "description": "作者注释",
+            "defaultValue": "adi",
+            "abbr": "a"
+          },
+          {
+            "fieldName": "output",
+            "type": "String",
+            "description": "输出信息",
+            "defaultValue": "输出总和 = ",
+            "abbr": "o"
+          }
+        ]
       }
     ]
   }

@@ -9,7 +9,7 @@ public class MainGenerator extends GenerateTemplate{
 
     
 
-    //重写生成精简版代码包，这里测试不生成
+    //重写生成精简版代码包，这里不生成
     @Override
     protected void buildDist(String outputPath, String shellOutputFilePath, String jarPath, String outputSourcePath) {
         //super.buildDist(outputPath, shellOutputFilePath, jarPath, outputSourcePath);

@@ -36,6 +36,11 @@ public class MetaValidator {
             return;
         }
         for (Meta.ModelConfig.modelInfo modelInfo : modelsInfoList) {
+            //如果为group,则不校验
+            String groupKey = modelInfo.getGroupKey();
+            if (StrUtil.isNotEmpty(groupKey)) {
+                continue;
+            }
             //输出路径默认值
             String fieldName = modelInfo.getFieldName();
             if (StrUtil.isBlank(fieldName)) {
@@ -88,7 +93,12 @@ public class MetaValidator {
             return;
         }
         for (Meta.FileConfig.fileInfo fileInfo : fileInfoList) {
-            
+
+            //如果文件类型type为group则不做校验
+            if (FileTypeEnum.GROUP.getValue().equals(fileInfo.getType())) {
+                continue;
+            }
+
             //inputPath: 必填
             String inputPath = fileInfo.getInputPath();
             if (StrUtil.isBlank(inputPath)) {

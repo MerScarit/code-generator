@@ -1,24 +1,14 @@
 package com.scarit.maker.cli.command;
 
-import cn.hutool.core.bean.BeanUtil;
-import com.scarit.maker.generator.file.FileGenerator;
 import com.scarit.maker.model.DataModel;
-import freemarker.template.TemplateException;
-import freemarker.template.TemplateModelException;
 import lombok.Data;
-import lombok.SneakyThrows;
 import picocli.CommandLine;
-import picocli.CommandLine.Option;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 
-import java.io.IOException;
-import java.util.concurrent.Callable;
-
-import static sun.management.snmp.jvminstr.JvmThreadInstanceEntryImpl.ThreadStateMap.Byte0.runnable;
-
-@Command(name = "generate", description = "生成代码", mixinStandardHelpOptions = true)
+@Command(name = "test", mixinStandardHelpOptions = true)
 @Data
-public class GenerateCommand implements Runnable {
+public class TestGroupCommand implements Runnable {
 
 //    /**
 //     * 1.在代码开头增加作者@Author 注释（增加代码）
@@ -31,7 +21,6 @@ public class GenerateCommand implements Runnable {
 //    @Option(names = {"-o", "--output"}, description = "结果输出", interactive = true, arity = "0..1",echo = true,required = true)
 //    private String output = "结果为:";
 
-    static DataModel.MainTemplate mainTemplate = new DataModel.MainTemplate();
 
     /**
      * 3.将循环读取输入改为单独读取（可选代码）
@@ -45,20 +34,24 @@ public class GenerateCommand implements Runnable {
     @Option(names = {"-g", "--needGit"}, description = "是否生成.gitignore文件", interactive = true, arity = "0..1",echo = true,required = true)
     private boolean needGit = true;
 
+    static DataModel.MainTemplate mainTemplate = new DataModel.MainTemplate();
+
     @Override
     public void run()  {
         System.out.println(needGit);
         System.out.println(loop);
         if (true) {
+            System.out.println("输出核心模块配置");
             CommandLine commandLine = new CommandLine(MainTemplateCommand.class);
             commandLine.execute("-a", "-o");
+            System.out.println(mainTemplate);
         }
 
     }
 
     @Command(name = "mainTemplate", description = "核心模板")
     @Data
-    static class MainTemplateCommand implements Runnable {
+    public static class MainTemplateCommand implements Runnable {
         /**
          * 1.在代码开头增加作者@Author 注释（增加代码）
          */
@@ -72,8 +65,8 @@ public class GenerateCommand implements Runnable {
 
         @Override
         public void run() {
-            mainTemplate.setAuthor(author);
-            mainTemplate.setOutput(output);
+            mainTemplate.author = author;
+            mainTemplate.output = output;
         }
     }
 
