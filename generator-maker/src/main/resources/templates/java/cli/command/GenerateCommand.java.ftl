@@ -7,10 +7,14 @@ import lombok.Data;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
+<#-- 生成选项 -->
 <#macro generateOption indent modelInfo>
 ${indent}@Option(names = {<#if modelInfo.abbr??>"-${modelInfo.abbr}"</#if>, "--${modelInfo.fieldName}"},<#if modelInfo.description??>description =${modelInfo.description?c}</#if> , interactive = true, arity = "0..1", echo = true)
 ${indent}private ${modelInfo.type} ${modelInfo.fieldName}<#if modelInfo.defaultValue??> =${modelInfo.defaultValue?c}</#if>;
 </#macro>
+
+<#-- 生成命令调用 -->
+
 
 @Command(name = "generate", description = "生成代码", mixinStandardHelpOptions = true)
 @Data
@@ -39,17 +43,20 @@ public class GenerateCommand implements Callable<Integer> {
             }
         }
     <#else>
-        <#---todo: -->
+        <@generateOption modelInfo=modelInfo indent="        "/>
     </#if>
-    @Option(names = {<#if modelInfo.abbr??>"-${modelInfo.abbr}"</#if>, "--${modelInfo.fieldName}"},<#if modelInfo.description??>description =${modelInfo.description?c}</#if> , interactive = true, arity = "0..1", echo = true)
-    private ${modelInfo.type} ${modelInfo.fieldName}<#if modelInfo.defaultValue??> =${modelInfo.defaultValue?c}</#if>;
 </#list>
+
+    <#-- 生成调用方法 --->
     @Override
     public Integer call() throws Exception {
-        DataModel dataMedel = new DataModel();
-        BeanUtil.copyProperties(this, dataMedel);
-        System.out.println(dataMedel);
-        MainGenerator.doGenerator(dataMedel);
-        return 0;
+        <#list modelConfig.models as modelInfo>
+            <#if modelInfo.groupKey??>
+                <#if modelInfo.condition??>
+        if(${modelInfo.condition}}){
+            <#-- todo:macro生成指令 -->
+        }
+            </#if>
+        </#list>
     }
 }
