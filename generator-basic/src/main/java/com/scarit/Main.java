@@ -43,6 +43,7 @@ public class Main {
 //            System.out.println("jvm---key:" + key + ";" + "jvm---value:" + value);
 //        });
         CommandExecutor executor = new CommandExecutor();
+        args = new String[]{"generate", "-l", "-a", "-o"};
         executor.doExecute(args);
    
     }

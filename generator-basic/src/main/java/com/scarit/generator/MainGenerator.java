@@ -16,7 +16,7 @@ public class MainGenerator {
         String projectPath = System.getProperty("user.dir");
         String parentpath = new File(projectPath).getParent();
         //静态文件生成路径
-        String staticInputPath = new File(parentpath, "generator-demo-projects/acm-template").getAbsolutePath();
+        String staticInputPath = new File(parentpath, "/generator-demo-projects/acm-template").getAbsolutePath();
         String staticOutputPath = projectPath ;
 
         //动态文件生成路径

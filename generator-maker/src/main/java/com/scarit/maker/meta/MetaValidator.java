@@ -10,6 +10,7 @@ import com.scarit.maker.meta.enums.ModelTypeEnum;
 
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 元信息校验
@@ -39,6 +40,13 @@ public class MetaValidator {
             //如果为group,则不校验
             String groupKey = modelInfo.getGroupKey();
             if (StrUtil.isNotEmpty(groupKey)) {
+                //生成中间参数allArgsStr
+                List<Meta.ModelConfig.modelInfo> subModelsInfoList = modelInfo.getModels();
+                String allArgsStr  = subModelsInfoList.stream().map(subModelsInfo ->
+                    // 拼接成类似："--author,--output"
+                    StrUtil.format("\"--{}\"", subModelsInfo.getFieldName()))
+                .collect(Collectors.joining(","));
+                modelInfo.setAllArgsStr(allArgsStr);
                 continue;
             }
             //输出路径默认值

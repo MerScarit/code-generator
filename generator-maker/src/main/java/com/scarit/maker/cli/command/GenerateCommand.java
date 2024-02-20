@@ -2,6 +2,7 @@ package com.scarit.maker.cli.command;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.scarit.maker.generator.file.FileGenerator;
+import com.scarit.maker.generator.main.MainGenerator;
 import com.scarit.maker.model.DataModel;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModelException;
@@ -53,6 +54,10 @@ public class GenerateCommand implements Runnable {
             CommandLine commandLine = new CommandLine(MainTemplateCommand.class);
             commandLine.execute("-a", "-o");
         }
+//        DataModel dataModel = new DataModel();
+//        dataModel.mainTemplate = mainTemplate;
+//        BeanUtil.copyProperties(this, dataModel);
+//        MainGenerator.doGenerate(dataModel);
 
     }
 

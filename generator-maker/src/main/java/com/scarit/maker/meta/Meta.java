@@ -68,7 +68,9 @@ public class Meta {
             private String condition;
             private List<modelInfo> models;
 
-
+            //中间参数
+            //用于拼接该分组下所有参数拼成字符串
+            private String allArgsStr;
         }
     }
 }
