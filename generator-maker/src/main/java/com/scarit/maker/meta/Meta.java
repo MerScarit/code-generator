@@ -68,7 +68,8 @@ public class Meta {
             private String condition;
             private List<modelInfo> models;
 
-
+            //该分组下所有参数拼接字符串
+            private String allArgsStr;
         }
     }
 }
