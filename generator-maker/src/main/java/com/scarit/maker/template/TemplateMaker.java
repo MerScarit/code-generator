@@ -34,7 +34,6 @@ public class TemplateMaker {
         }
         // 一、基本信息
         // 1.输入项目基本信息
-
         String name = "acm-template-generator";
         String description = "acm示例代码生成器";
 
@@ -48,10 +47,8 @@ public class TemplateMaker {
         if (!FileUtil.exist(templatePath)) {
             FileUtil.mkdir(templatePath);
             FileUtil.copy(originRootPath, templatePath, true);
-
         }
-
-
+        
         //工作文件输出路径
         String sourceRootPath = templatePath + File.separator + FileUtil.getLastPathEle(Paths.get(originRootPath)).toString();
 
@@ -105,7 +102,13 @@ public class TemplateMaker {
 
             List<Meta.ModelConfig.ModelInfo> modelInfoList = oldMeta.getModelConfig().getModels();
             modelInfoList.add(modelInfo);
-
+            
+            //去重
+            oldMeta.getFileConfig().setFiles(distinctFiles(fileInfoList));
+            oldMeta.getModelConfig().setModels(distinctModels(modelInfoList));
+            
+            // 更新输出元信息文件
+            FileUtil.writeUtf8String(JSONUtil.toJsonPrettyStr(oldMeta), metaOutputPath);
         } else {
 
             // 1.构造配置参数
@@ -116,15 +119,19 @@ public class TemplateMaker {
             Meta.FileConfig fileConfig = new Meta.FileConfig();
             meta.setFileConfig(fileConfig);
             fileConfig.setSourceRootPath(sourceRootPath);
-            ArrayList<Meta.FileConfig.FileInfo> fileInfoList = new ArrayList<>();
+            List<Meta.FileConfig.FileInfo> fileInfoList = new ArrayList<>();
             fileConfig.setFiles(fileInfoList);
             fileInfoList.add(fileInfo);
+            //去重
+            fileInfoList = distinctFiles(fileInfoList);
 
             Meta.ModelConfig modelConfig = new Meta.ModelConfig();
             meta.setModelConfig(modelConfig);
-            ArrayList<Meta.ModelConfig.ModelInfo> modelInfoList = new ArrayList<>();
+            List<Meta.ModelConfig.ModelInfo> modelInfoList = new ArrayList<>();
             modelConfig.setModels(modelInfoList);
             modelInfoList.add(modelInfo);
+            //去重
+            modelInfoList = distinctModels(modelInfoList);
 
 
             // 2. 输出元信息文件
@@ -133,12 +140,30 @@ public class TemplateMaker {
         return id;
     }
 
+    /**
+     * FileInfo去重
+     * @param fileInfoList
+     * @return
+     */
     private static List<Meta.FileConfig.FileInfo> distinctFiles(List<Meta.FileConfig.FileInfo> fileInfoList) {
         List<Meta.FileConfig.FileInfo> newFileInfoList = new ArrayList<>(
                 fileInfoList.stream().collect(
                 Collectors.toMap(Meta.FileConfig.FileInfo::getInputPath, fileInfo -> fileInfo, (oldFileinfo, newFileInfo) -> newFileInfo)
         ).values());
         return newFileInfoList;
+    }
+
+    /**
+     * ModelInfo去重
+     * @param modelInfoList
+     * @return
+     */
+    private static List<Meta.ModelConfig.ModelInfo> distinctModels(List<Meta.ModelConfig.ModelInfo> modelInfoList) {
+        List<Meta.ModelConfig.ModelInfo> newModelInfoList = new ArrayList<>(
+                modelInfoList.stream().collect(
+                        Collectors.toMap(Meta.ModelConfig.ModelInfo::getFieldName, modelInfo -> modelInfo, (oldModelInfo, newModelInfo) -> newModelInfo)
+                ).values());
+        return newModelInfoList;
     }
 
 }
