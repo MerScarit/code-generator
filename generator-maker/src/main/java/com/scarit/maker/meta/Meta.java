@@ -29,17 +29,17 @@ public class Meta {
         private String outputRootPath;
         private String sourceRootPath;
         private String type;
-        private List<fileInfo> files;
+        private List<FileInfo> files;
 
         @NoArgsConstructor
         @Data
-        public static class fileInfo implements Serializable {
+        public static class FileInfo implements Serializable {
 
             private String groupKey;
             private String groupName;
             private String type;
             private String condition;
-            private List<fileInfo> files;
+            private List<FileInfo> files;
             private String inputPath;
             private String outputPath;
             private String generateType;
@@ -52,11 +52,11 @@ public class Meta {
     @Data
     public static class ModelConfig implements Serializable {
         
-        private List<modelInfo> models;
+        private List<ModelInfo> models;
 
         @NoArgsConstructor
         @Data
-        public static class modelInfo implements Serializable {
+        public static class ModelInfo implements Serializable {
             
             private String fieldName;
             private String type;
@@ -66,7 +66,7 @@ public class Meta {
             private String groupKey;
             private String groupName;
             private String condition;
-            private List<modelInfo> models;
+            private List<ModelInfo> models;
 
             //中间参数
             //用于拼接该分组下所有参数拼成字符串

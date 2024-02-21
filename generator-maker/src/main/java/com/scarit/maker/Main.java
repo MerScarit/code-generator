@@ -1,6 +1,5 @@
 package com.scarit.maker;
 
-import com.scarit.maker.cli.CommandExecutor;
 
 /**
  * @author ADI
@@ -9,11 +8,11 @@ import com.scarit.maker.cli.CommandExecutor;
  */
 
 public class Main {
-    public static void main(String[] args) {
-       
-        CommandExecutor executor = new CommandExecutor();
-        args = new String[]{ "generate","-l","-g"};
-        executor.doExecute(args);
-   
-    }
+//    public static void main(String[] args) {
+//
+//        CommandExecutor executor = new CommandExecutor();
+//        args = new String[]{ "generate","-l","-g"};
+//        executor.doExecute(args);
+//
+//    }
 }

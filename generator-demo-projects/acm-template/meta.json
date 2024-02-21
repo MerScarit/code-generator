@@ -1,0 +1,25 @@
+{
+    "name": "acm-template-generator",
+    "description": "acm示例代码生成器",
+    "enableGitVersionControl": false,
+    "fileConfig": {
+        "sourceRootPath": "F:/code/code-generator/generator-demo-projects/acm-template",
+        "files": [
+            {
+                "type": "file",
+                "inputPath": "src/com/scarit/acm/MainTemplate.java",
+                "outputPath": "src/com/scarit/acm/MainTemplate.java.ftl",
+                "generateType": "dynamic"
+            }
+        ]
+    },
+    "modelConfig": {
+        "models": [
+            {
+                "fieldName": "outputText1111",
+                "type": "String",
+                "defaultValue": "sum ="
+            }
+        ]
+    }
+}

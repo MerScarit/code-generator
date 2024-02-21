@@ -26,7 +26,7 @@ public class MainTemplate {
                 sum += num;
             }
 
-            System.out.println("${outputText} " + sum);
+            System.out.println("${outputText1111} " + sum);
         }
 
         scanner.close();

@@ -1,7 +1,6 @@
 package com.scarit.maker.generator.main;
 
 
-import com.scarit.maker.model.DataModel;
 import freemarker.template.TemplateException;
 
 import java.io.IOException;

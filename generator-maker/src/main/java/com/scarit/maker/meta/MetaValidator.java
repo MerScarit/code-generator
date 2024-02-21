@@ -32,16 +32,16 @@ public class MetaValidator {
         if (modelConfig == null) {
             return;
         }
-        List<Meta.ModelConfig.modelInfo> modelsInfoList = modelConfig.getModels();
+        List<Meta.ModelConfig.ModelInfo> modelsInfoList = modelConfig.getModels();
         if (!CollUtil.isNotEmpty(modelsInfoList)) {
             return;
         }
-        for (Meta.ModelConfig.modelInfo modelInfo : modelsInfoList) {
+        for (Meta.ModelConfig.ModelInfo modelInfo : modelsInfoList) {
             //如果为group,则不校验
             String groupKey = modelInfo.getGroupKey();
             if (StrUtil.isNotEmpty(groupKey)) {
                 //生成中间参数allArgsStr
-                List<Meta.ModelConfig.modelInfo> subModelsInfoList = modelInfo.getModels();
+                List<Meta.ModelConfig.ModelInfo> subModelsInfoList = modelInfo.getModels();
                 String allArgsStr  = subModelsInfoList.stream().map(subModelsInfo ->
                     // 拼接成类似："--author,--output"
                     StrUtil.format("\"--{}\"", subModelsInfo.getFieldName()))
@@ -96,11 +96,11 @@ public class MetaValidator {
         }
 
         //fileInfo默认值
-        List<Meta.FileConfig.fileInfo> fileInfoList = fileConfig.getFiles();
+        List<Meta.FileConfig.FileInfo> fileInfoList = fileConfig.getFiles();
         if (!CollUtil.isNotEmpty(fileInfoList)) {
             return;
         }
-        for (Meta.FileConfig.fileInfo fileInfo : fileInfoList) {
+        for (Meta.FileConfig.FileInfo fileInfo : fileInfoList) {
 
             //如果文件类型type为group则不做校验
             if (FileTypeEnum.GROUP.getValue().equals(fileInfo.getType())) {
