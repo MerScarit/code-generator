@@ -21,12 +21,12 @@ ${indent}DynamicGenerator.doGenerate(inputPath, outputPath,model);
 public class MainGenerator {
 
     /**
-    * 生成
-    *
-    * @param model 数据模型
-    * @throws TemplateException
-    * @throws IOException
-    */
+     * 生成
+     *
+     * @param model 数据模型
+     * @throws TemplateException
+     * @throws IOException
+     */
     public static void doGenerator(DataModel model) throws TemplateException, IOException, InterruptedException {
         
         String inputRootPath = "${fileConfig.inputRootPath}";
@@ -34,12 +34,13 @@ public class MainGenerator {
 
         String inputPath;
         String outputPath;
+
 <#-- 获取模型变量 -->
 <#list modelConfig.models as modelInfo>
         <#-- 有分组 -->
         <#if modelInfo.groupKey??>
             <#list modelInfo.models as subModelInfo>
-        ${subModelInfo.type} ${subModelInfo.fieldName} = model.${subModelInfo.groupKey}.${subModelInfo.fieldName};
+        ${subModelInfo.type} ${subModelInfo.fieldName} = model.${modelInfo.groupKey}.${subModelInfo.fieldName};
             </#list>
         <#else>
         ${modelInfo.type} ${modelInfo.fieldName} = model.${modelInfo.fieldName};

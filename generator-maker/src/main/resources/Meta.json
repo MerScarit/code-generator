@@ -59,7 +59,7 @@
       {
         "groupKey": "mainTemplate",
         "groupName": "核心模版",
-        "type": "MainTemplate",
+        "type": "MainTeplate",
         "description": "用于生成核心模板文件",
         "condition": "loop",
         "models": [
