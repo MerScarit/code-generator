@@ -66,16 +66,10 @@ public class Meta {
             private String groupKey;
             private String groupName;
             private String condition;
-<<<<<<< HEAD
-            private List<modelInfo> models;
-
-            //该分组下所有参数拼接字符串
-=======
             private List<ModelInfo> models;
 
             //中间参数
             //用于拼接该分组下所有参数拼成字符串
->>>>>>> 96574dc48035835f4fab67f524e8e9efd0cc2c1a
             private String allArgsStr;
         }
     }
