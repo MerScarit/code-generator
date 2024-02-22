@@ -97,12 +97,13 @@ public class TemplateMaker {
         if (FileUtil.exist(metaOutputPath)) {
 
             Meta oldMeta = JSONUtil.toBean(FileUtil.readUtf8String(metaOutputPath), Meta.class);
+            // 追加配置参数
             List<Meta.FileConfig.FileInfo> fileInfoList = oldMeta.getFileConfig().getFiles();
             fileInfoList.add(fileInfo);
 
             List<Meta.ModelConfig.ModelInfo> modelInfoList = oldMeta.getModelConfig().getModels();
             modelInfoList.add(modelInfo);
-            
+
             //去重
             oldMeta.getFileConfig().setFiles(distinctFiles(fileInfoList));
             oldMeta.getModelConfig().setModels(distinctModels(modelInfoList));
@@ -133,7 +134,6 @@ public class TemplateMaker {
             //去重
             modelInfoList = distinctModels(modelInfoList);
 
-
             // 2. 输出元信息文件
             FileUtil.writeUtf8String(JSONUtil.toJsonPrettyStr(meta), metaOutputPath);
         }
@@ -153,17 +153,27 @@ public class TemplateMaker {
         return newFileInfoList;
     }
 
+<<<<<<< HEAD
     /**
      * ModelInfo去重
      * @param modelInfoList
      * @return
      */
+=======
+>>>>>>> 9af24b7 (去重)
     private static List<Meta.ModelConfig.ModelInfo> distinctModels(List<Meta.ModelConfig.ModelInfo> modelInfoList) {
         List<Meta.ModelConfig.ModelInfo> newModelInfoList = new ArrayList<>(
                 modelInfoList.stream().collect(
                         Collectors.toMap(Meta.ModelConfig.ModelInfo::getFieldName, modelInfo -> modelInfo, (oldModelInfo, newModelInfo) -> newModelInfo)
+<<<<<<< HEAD
                 ).values());
         return newModelInfoList;
     }
 
+=======
+                ).values()
+        );
+        return newModelInfoList;
+    }
+>>>>>>> 9af24b7 (去重)
 }
