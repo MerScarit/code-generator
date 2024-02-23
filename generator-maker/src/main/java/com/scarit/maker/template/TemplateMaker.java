@@ -1,5 +1,7 @@
 package com.scarit.maker.template;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
@@ -7,6 +9,10 @@ import cn.hutool.json.JSONUtil;
 import com.scarit.maker.meta.Meta;
 import com.scarit.maker.meta.enums.FileGenerateTypeEnum;
 import com.scarit.maker.meta.enums.FileTypeEnum;
+import com.scarit.maker.template.enums.FileFilterRangeEnum;
+import com.scarit.maker.template.enums.FileFilterRuleEnum;
+import com.scarit.maker.template.model.FileFilterConfig;
+import com.scarit.maker.template.model.TemplateMakerFileConfig;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -30,7 +36,7 @@ public class TemplateMaker {
         String originRootPath = new File(projectPath).getParent() + File.separator + "generator-demo-projects/springboot-init";
 
         String fileInputPath1 = "src/main/java/com/yupi/springbootinit/common";
-        String fileInputPath2 = "src/main/java/com/yupi/springbootinit/config";
+        String fileInputPath2 = "src/main/java/com/yupi/springbootinit/controller";
 
         List<String> fileInputPathList = Arrays.asList(fileInputPath1, fileInputPath2);
 
@@ -52,7 +58,27 @@ public class TemplateMaker {
         //使用工具类雪花算法定义每次的工作文档
 //        Long id = IdUtil.getSnowflakeNextId();
         TemplateMaker templateMaker = new TemplateMaker();
-        templateMaker.makeTemplate(meta,originRootPath, fileInputPathList, searchStr, modelInfo,1L);
+
+        // 文件过滤
+        TemplateMakerFileConfig templateMakerFileConfig = new TemplateMakerFileConfig();
+
+        TemplateMakerFileConfig.FileInfoConfig fileInfoConfig1 = new TemplateMakerFileConfig.FileInfoConfig();
+        fileInfoConfig1.setPath(fileInputPath1);
+        List<FileFilterConfig> fileFilterConfigList = new ArrayList<>();
+        FileFilterConfig fileFilterConfig = FileFilterConfig.builder()
+                .range(FileFilterRangeEnum.FILE_NAME.getValue())
+                .rule(FileFilterRuleEnum.CONTAIN.getValue())
+                .value("Base")
+                .build();
+        fileFilterConfigList.add(fileFilterConfig);
+        fileInfoConfig1.setFilterConfigList(fileFilterConfigList);
+
+
+        TemplateMakerFileConfig.FileInfoConfig fileInfoConfig2 = new TemplateMakerFileConfig.FileInfoConfig();
+        fileInfoConfig2.setPath(fileInputPath2);
+        templateMakerFileConfig.setFiles(Arrays.asList(fileInfoConfig1, fileInfoConfig2));
+
+        templateMaker.makeTemplate(meta,originRootPath,templateMakerFileConfig, searchStr, modelInfo,1L);
 
     }
 
@@ -60,22 +86,20 @@ public class TemplateMaker {
      * 制作模板
      * @param newMeta
      * @param originRootPath
-     * @param fileInputPathList
+     * @param templateMakerFileConfig
      * @param searchStr
      * @param modelInfo
      * @param id
      * @return
      */
-    private static Long makeTemplate(Meta newMeta, String originRootPath, List<String> fileInputPathList, String searchStr, Meta.ModelConfig.ModelInfo modelInfo, Long id) {
+    private static Long makeTemplate(Meta newMeta, String originRootPath, TemplateMakerFileConfig templateMakerFileConfig, String searchStr, Meta.ModelConfig.ModelInfo modelInfo, Long id) {
 
         if (id == null) {
             //使用工具类雪花算法定义每次的工作文档
             id = IdUtil.getSnowflakeNextId();
         }
         // 一、基本信息
-        // 1.输入项目基本信息
-        String name = newMeta.getName() ;
-        String description = newMeta.getDescription();
+
 
         // 2.指定原始项目路径
         String projectPath = System.getProperty("user.dir");
@@ -106,21 +130,35 @@ public class TemplateMaker {
 
         // 二、生成文件模板
         List<Meta.FileConfig.FileInfo> newFileInfoList = new ArrayList<>();
-        for (String fileInputPath : fileInputPathList) {
-            String fileOutputAbsolutePath = sourceRootPath + File.separator + fileInputPath;
-            // 输入的是目录
-            if (FileUtil.isDirectory(new File(fileOutputAbsolutePath))) {
-                List<File> fileList = FileUtil.loopFiles(fileOutputAbsolutePath);
-                for (File file : fileList){
-                    Meta.FileConfig.FileInfo fileInfo = makeFileTemplate(searchStr, modelInfo, sourceRootPath, file);
-                    newFileInfoList.add(fileInfo);
-                }
+        List<TemplateMakerFileConfig.FileInfoConfig> fileInfoConfigList = templateMakerFileConfig.getFiles();
+        for (TemplateMakerFileConfig.FileInfoConfig fileInfoConfig : fileInfoConfigList) {
+            String fileInputPath = fileInfoConfig.getPath();
+            // 如果填入的是相对路径要改为绝对路径
+            if (!fileInputPath.startsWith(sourceRootPath)) {
+                fileInputPath = sourceRootPath + File.separator + fileInputPath;
             }
-            // 输入的是文件
-            else {
-                Meta.FileConfig.FileInfo fileInfo = makeFileTemplate(searchStr, modelInfo, sourceRootPath, new File(fileOutputAbsolutePath));
+//            // 输入的是目录
+//            if (FileUtil.isDirectory(new File(fileOutputAbsolutePath))) {
+//                List<File> fileList = FileUtil.loopFiles(fileOutputAbsolutePath);
+//                for (File file : fileList){
+//                    Meta.FileConfig.FileInfo fileInfo = makeFileTemplate(searchStr, modelInfo, sourceRootPath, file);
+//                    newFileInfoList.add(fileInfo);
+//                }
+//            }
+//            // 输入的是文件
+//            else {
+//                Meta.FileConfig.FileInfo fileInfo = makeFileTemplate(searchStr, modelInfo, sourceRootPath, new File(fileOutputAbsolutePath));
+//                newFileInfoList.add(fileInfo);
+//            }
+
+            // 新增FileFilter.doFilter()后不用考虑输入的是否是目录
+            // 获取过滤后的文件列表
+            List<File> fileList = FileFilter.doFilter(fileInputPath, fileInfoConfig.getFilterConfigList());
+            for (File file : fileList) {
+                Meta.FileConfig.FileInfo fileInfo = makeFileTemplate(searchStr, modelInfo, sourceRootPath, file);
                 newFileInfoList.add(fileInfo);
             }
+
         }
 
         // 三、生成配置文件
@@ -129,24 +167,22 @@ public class TemplateMaker {
         // 如果已有meta文件，说明不是第一次制作，则在meta基础上进行修改
         if (FileUtil.exist(metaOutputPath)) {
             Meta oldMeta = JSONUtil.toBean(FileUtil.readUtf8String(metaOutputPath), Meta.class);
+            BeanUtil.copyProperties(newMeta, oldMeta, CopyOptions.create().ignoreNullValue());
             // 追加配置参数
-            List<Meta.FileConfig.FileInfo> fileInfoList = oldMeta.getFileConfig().getFiles();
+            List<Meta.FileConfig.FileInfo> fileInfoList = newMeta.getFileConfig().getFiles();
             fileInfoList.addAll(newFileInfoList);
-            List<Meta.ModelConfig.ModelInfo> modelInfoList = oldMeta.getModelConfig().getModels();
+            List<Meta.ModelConfig.ModelInfo> modelInfoList = newMeta.getModelConfig().getModels();
             modelInfoList.add(modelInfo);
 
             // 配置去重
-            oldMeta.getFileConfig().setFiles(distinctFiles(fileInfoList));
-            oldMeta.getModelConfig().setModels(distinctModels(modelInfoList));
+            newMeta.getFileConfig().setFiles(distinctFiles(fileInfoList));
+            newMeta.getModelConfig().setModels(distinctModels(modelInfoList));
             
             // 更新输出元信息文件
             FileUtil.writeUtf8String(JSONUtil.toJsonPrettyStr(oldMeta), metaOutputPath);
         } else {
 
             // 1.构造配置参数
-            newMeta.setName(name);
-            newMeta.setDescription(description);
-
             Meta.FileConfig fileConfig = new Meta.FileConfig();
             newMeta.setFileConfig(fileConfig);
             fileConfig.setSourceRootPath(sourceRootPath);
@@ -225,6 +261,7 @@ public class TemplateMaker {
      * @return
      */
     private static List<Meta.FileConfig.FileInfo> distinctFiles(List<Meta.FileConfig.FileInfo> fileInfoList) {
+
         List<Meta.FileConfig.FileInfo> newFileInfoList = new ArrayList<>(
                 fileInfoList.stream().collect(
                 Collectors.toMap(Meta.FileConfig.FileInfo::getInputPath, fileInfo -> fileInfo, (oldFileinfo, newFileInfo) -> newFileInfo)
