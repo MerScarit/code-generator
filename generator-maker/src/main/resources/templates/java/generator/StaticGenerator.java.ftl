@@ -1,7 +1,7 @@
 package ${basePackage}.generator;
 
 
-import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.io.ModelUtil;
 
 /**
  * @author ADI

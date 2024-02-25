@@ -23,7 +23,7 @@ public class Meta {
 
     @NoArgsConstructor
     @Data
-    public static class FileConfig implements Serializable {
+    public static class FileConfig  {
         
         private String inputRootPath;
         private String outputRootPath;
@@ -31,9 +31,8 @@ public class Meta {
         private String type;
         private List<FileInfo> files;
 
-        @NoArgsConstructor
         @Data
-        public static class FileInfo implements Serializable {
+        public static class FileInfo  {
 
             private String groupKey;
             private String groupName;

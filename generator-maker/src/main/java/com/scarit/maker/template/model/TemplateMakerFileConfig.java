@@ -15,6 +15,8 @@ public class TemplateMakerFileConfig {
 
     private List<FileInfoConfig> files;
 
+    private FileGroupConfig fileGroupConfig;
+
 
     @Data
     @NoArgsConstructor
@@ -29,6 +31,26 @@ public class TemplateMakerFileConfig {
          * 文件过滤配置
          */
         private List<FileFilterConfig> filterConfigList;
+
+    }
+
+    @Data
+    public static class FileGroupConfig {
+
+        /**
+         * 文件组状态
+         */
+        private String condition;
+
+        /**
+         * 文件组唯一标识
+         */
+        private String groupKey;
+
+        /**
+         * 文件组名字
+         */
+        private String groupName;
 
     }
 }
