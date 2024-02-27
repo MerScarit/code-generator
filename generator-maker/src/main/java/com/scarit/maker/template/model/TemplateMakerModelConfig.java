@@ -8,9 +8,9 @@ import java.util.List;
 @Data
 public class TemplateMakerModelConfig {
 
-    private List<TemplateMakerModelConfig.ModelInfoConfig> Models;
+    private List<TemplateMakerModelConfig.ModelInfoConfig> models;
 
-    private TemplateMakerModelConfig.ModelGroupConfig ModelGroupConfig;
+    private TemplateMakerModelConfig.ModelGroupConfig modelGroupConfig;
 
 
     @Data
