@@ -13,6 +13,7 @@ import com.scarit.maker.meta.enums.FileTypeEnum;
 import com.scarit.maker.template.model.TemplateMakerConfig;
 import com.scarit.maker.template.model.TemplateMakerFileConfig;
 import com.scarit.maker.template.model.TemplateMakerModelConfig;
+import com.scarit.maker.template.model.TemplateMakerOutputConfig;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -33,9 +34,10 @@ public class TemplateMaker {
         String originProjectPath = templateMakerConfig.getOriginProjectPath();
         TemplateMakerFileConfig fileInfoConfig = templateMakerConfig.getFileConfig();
         TemplateMakerModelConfig modelInfoConfig = templateMakerConfig.getModelConfig();
+        TemplateMakerOutputConfig outputConfig = templateMakerConfig.getOutputConfig();
         Long id = templateMakerConfig.getId();
 
-        return id = makeTemplate(meta, originProjectPath, fileInfoConfig, modelInfoConfig, id);
+        return id = makeTemplate(meta, originProjectPath, fileInfoConfig, modelInfoConfig,outputConfig, id);
     }
 
     /**
@@ -48,7 +50,7 @@ public class TemplateMaker {
      * @param id
      * @returnp
      */
-    public static Long makeTemplate(Meta newMeta, String originRootPath, TemplateMakerFileConfig templateMakerFileConfig, TemplateMakerModelConfig templateMakerModelConfig, Long id) {
+    public static Long makeTemplate(Meta newMeta, String originRootPath, TemplateMakerFileConfig templateMakerFileConfig, TemplateMakerModelConfig templateMakerModelConfig, TemplateMakerOutputConfig templateMakerOutputConfig, Long id) {
         
         if (id == null) {
             //使用工具类雪花算法定义每次的工作文档
@@ -119,6 +121,14 @@ public class TemplateMaker {
             modelConfig.setModels(modelInfoList);
             modelInfoList.addAll(newModelInfoList);
 
+        }
+        // 2.额外的输出去重配置
+        if (templateMakerOutputConfig != null) {
+            // 文件外层和分组去重
+            if (templateMakerOutputConfig.isRemoveGroupFileFromRoot()) {
+                List<Meta.FileConfig.FileInfo> fileInfoList = newMeta.getFileConfig().getFiles();
+                newMeta.getFileConfig().setFiles(TemplateMakerUtils.removeGroupFilesFromRoot(fileInfoList));
+            }
         }
         // 2. 输出元信息文件
         FileUtil.writeUtf8String(JSONUtil.toJsonPrettyStr(newMeta), metaOutputPath);

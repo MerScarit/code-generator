@@ -6,6 +6,7 @@ import com.scarit.maker.meta.Meta;
 import com.scarit.maker.template.model.TemplateMakerConfig;
 import com.scarit.maker.template.model.TemplateMakerFileConfig;
 import com.scarit.maker.template.model.TemplateMakerModelConfig;
+import com.scarit.maker.template.model.TemplateMakerOutputConfig;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -49,7 +50,9 @@ class TemplateMakerTest {
         fileInfoConfig1.setPath(fileInputPath1);
         templateMakerFileConfig.setFiles(Arrays.asList(fileInfoConfig1));
 
-        long id = TemplateMaker.makeTemplate(meta,originRootPath,templateMakerFileConfig, templateMakerModelConfig,1L);
+        TemplateMakerOutputConfig templateMakerOutputConfig = new TemplateMakerOutputConfig();
+
+        long id = TemplateMaker.makeTemplate(meta,originRootPath,templateMakerFileConfig, templateMakerModelConfig,templateMakerOutputConfig,1L);
         System.out.println(id);
     }
 
@@ -86,8 +89,11 @@ class TemplateMakerTest {
         TemplateMakerFileConfig.FileInfoConfig fileInfoConfig1 = new TemplateMakerFileConfig.FileInfoConfig();
         fileInfoConfig1.setPath(fileInputPath1);
         templateMakerFileConfig.setFiles(Arrays.asList(fileInfoConfig1));
+        
+        
+        TemplateMakerOutputConfig templateMakerOutputConfig = new TemplateMakerOutputConfig();
 
-        long id = TemplateMaker.makeTemplate(meta,originRootPath,templateMakerFileConfig, templateMakerModelConfig,1L);
+        long id = TemplateMaker.makeTemplate(meta, originRootPath, templateMakerFileConfig, templateMakerModelConfig, templateMakerOutputConfig, 1L);
         System.out.println(id);
     }
 
@@ -157,5 +163,12 @@ class TemplateMakerTest {
         templateMakerConfig = JSONUtil.toBean(configStr, TemplateMakerConfig.class);
         TemplateMaker.makeTemplate(templateMakerConfig);
         System.out.println(id);
+
+        configStr = ResourceUtil.readUtf8Str(rootPath + "templateMakerToControlPost.json");
+        templateMakerConfig = JSONUtil.toBean(configStr, TemplateMakerConfig.class);
+        TemplateMaker.makeTemplate(templateMakerConfig);
+        System.out.println(id);
     }
+
+
 }
