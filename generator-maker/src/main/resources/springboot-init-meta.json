@@ -1,0 +1,377 @@
+{
+    "name": "springboot-init-generator",
+    "description": "Spring Boot 模板项目生成器",
+    "enableGitVersionControl": false,
+    "fileConfig": {
+        "sourceRootPath": "F:/code/code-generator/generator-maker/.temp/1/springboot-init",
+        "files": [
+            {
+                "groupKey": "post",
+                "groupName": "帖子相关文件组",
+                "type": "group",
+                "condition": "needPost",
+                "files": [
+                    {
+                        "type": "file",
+                        "inputPath": "src/main/java/com/yupi/springbootinit/model/entity/Post.java.ftl;",
+                        "outputPath": "src/main/java/com/yupi/springbootinit/model/entity/Post.java",
+                        "generateType": "dynamic"
+                    },
+                    {
+                        "type": "file",
+                        "inputPath": "src/main/java/com/yupi/springbootinit/model/dto/post/PostAddRequest.java.ftl;",
+                        "outputPath": "src/main/java/com/yupi/springbootinit/model/dto/post/PostAddRequest.java",
+                        "generateType": "dynamic"
+                    },
+                    {
+                        "type": "file",
+                        "inputPath": "src/main/resources/mapper/PostMapper.xml.ftl;",
+                        "outputPath": "src/main/resources/mapper/PostMapper.xml",
+                        "generateType": "dynamic"
+                    },
+                    {
+                        "type": "file",
+                        "inputPath": "src/main/java/com/yupi/springbootinit/service/impl/PostServiceImpl.java.ftl;",
+                        "outputPath": "src/main/java/com/yupi/springbootinit/service/impl/PostServiceImpl.java",
+                        "generateType": "dynamic"
+                    },
+                    {
+                        "type": "file",
+                        "inputPath": "src/main/java/com/yupi/springbootinit/model/dto/post/PostEsDTO.java.ftl;",
+                        "outputPath": "src/main/java/com/yupi/springbootinit/model/dto/post/PostEsDTO.java",
+                        "generateType": "dynamic"
+                    },
+                    {
+                        "type": "file",
+                        "inputPath": "src/main/java/com/yupi/springbootinit/model/dto/post/PostUpdateRequest.java.ftl;",
+                        "outputPath": "src/main/java/com/yupi/springbootinit/model/dto/post/PostUpdateRequest.java",
+                        "generateType": "dynamic"
+                    },
+                    {
+                        "type": "file",
+                        "inputPath": "src/main/java/com/yupi/springbootinit/controller/PostController.java.ftl;",
+                        "outputPath": "src/main/java/com/yupi/springbootinit/controller/PostController.java",
+                        "generateType": "dynamic"
+                    },
+                    {
+                        "type": "file",
+                        "inputPath": "src/main/java/com/yupi/springbootinit/model/dto/post/PostQueryRequest.java.ftl;",
+                        "outputPath": "src/main/java/com/yupi/springbootinit/model/dto/post/PostQueryRequest.java",
+                        "generateType": "dynamic"
+                    },
+                    {
+                        "type": "file",
+                        "inputPath": "src/main/java/com/yupi/springbootinit/mapper/PostMapper.java.ftl;",
+                        "outputPath": "src/main/java/com/yupi/springbootinit/mapper/PostMapper.java",
+                        "generateType": "dynamic"
+                    },
+                    {
+                        "type": "file",
+                        "inputPath": "src/main/java/com/yupi/springbootinit/service/PostService.java.ftl;",
+                        "outputPath": "src/main/java/com/yupi/springbootinit/service/PostService.java",
+                        "generateType": "dynamic"
+                    }
+                ]
+            },
+            {
+                "type": "file",
+                "inputPath": "src/main/java/com/yupi/springbootinit/common/ErrorCode.java.ftl;",
+                "outputPath": "src/main/java/com/yupi/springbootinit/common/ErrorCode.java",
+                "generateType": "dynamic"
+            },
+            {
+                "type": "file",
+                "inputPath": ".gitignore",
+                "outputPath": ".gitignore",
+                "generateType": "static"
+            },
+            {
+                "type": "file",
+                "inputPath": "src/main/java/com/yupi/springbootinit/exception/BusinessException.java.ftl;",
+                "outputPath": "src/main/java/com/yupi/springbootinit/exception/BusinessException.java",
+                "generateType": "dynamic"
+            },
+            {
+                "type": "file",
+                "inputPath": "src/main/java/com/yupi/springbootinit/common/PageRequest.java.ftl;",
+                "outputPath": "src/main/java/com/yupi/springbootinit/common/PageRequest.java",
+                "generateType": "dynamic"
+            },
+            {
+                "type": "file",
+                "inputPath": "src/main/java/com/yupi/springbootinit/config/MyBatisPlusConfig.java.ftl;",
+                "outputPath": "src/main/java/com/yupi/springbootinit/config/MyBatisPlusConfig.java",
+                "generateType": "dynamic"
+            },
+            {
+                "type": "file",
+                "inputPath": "src/main/java/com/yupi/springbootinit/model/enums/UserRoleEnum.java.ftl;",
+                "outputPath": "src/main/java/com/yupi/springbootinit/model/enums/UserRoleEnum.java",
+                "generateType": "dynamic"
+            },
+            {
+                "type": "file",
+                "inputPath": "src/main/java/com/yupi/springbootinit/exception/GlobalExceptionHandler.java.ftl;",
+                "outputPath": "src/main/java/com/yupi/springbootinit/exception/GlobalExceptionHandler.java",
+                "generateType": "dynamic"
+            },
+            {
+                "type": "file",
+                "condition": "needDocs",
+                "inputPath": "src/main/java/com/yupi/springbootinit/config/Knife4jConfig.java.ftl;",
+                "outputPath": "src/main/java/com/yupi/springbootinit/config/Knife4jConfig.java",
+                "generateType": "dynamic"
+            },
+            {
+                "type": "file",
+                "inputPath": "src/main/java/com/yupi/springbootinit/service/impl/UserServiceImpl.java.ftl;",
+                "outputPath": "src/main/java/com/yupi/springbootinit/service/impl/UserServiceImpl.java",
+                "generateType": "dynamic"
+            },
+            {
+                "type": "file",
+                "inputPath": "src/main/java/com/yupi/springbootinit/model/dto/user/UserRegisterRequest.java.ftl;",
+                "outputPath": "src/main/java/com/yupi/springbootinit/model/dto/user/UserRegisterRequest.java",
+                "generateType": "dynamic"
+            },
+            {
+                "type": "file",
+                "inputPath": "pom.xml.ftl;",
+                "outputPath": "pom.xml",
+                "generateType": "dynamic"
+            },
+            {
+                "type": "file",
+                "inputPath": "src/main/resources/mapper/UserMapper.xml.ftl;",
+                "outputPath": "src/main/resources/mapper/UserMapper.xml",
+                "generateType": "dynamic"
+            },
+            {
+                "type": "file",
+                "inputPath": "src/test/.DS_Store",
+                "outputPath": "src/test/.DS_Store",
+                "generateType": "static"
+            },
+            {
+                "type": "file",
+                "inputPath": "src/main/java/com/yupi/springbootinit/common/DeleteRequest.java.ftl;",
+                "outputPath": "src/main/java/com/yupi/springbootinit/common/DeleteRequest.java",
+                "generateType": "dynamic"
+            },
+            {
+                "type": "file",
+                "inputPath": "src/main/java/com/yupi/springbootinit/constant/UserConstant.java.ftl;",
+                "outputPath": "src/main/java/com/yupi/springbootinit/constant/UserConstant.java",
+                "generateType": "dynamic"
+            },
+            {
+                "type": "file",
+                "inputPath": "src/main/java/com/yupi/springbootinit/model/dto/user/UserQueryRequest.java.ftl;",
+                "outputPath": "src/main/java/com/yupi/springbootinit/model/dto/user/UserQueryRequest.java",
+                "generateType": "dynamic"
+            },
+            {
+                "type": "file",
+                "inputPath": "src/main/java/com/yupi/springbootinit/MainApplication.java.ftl;",
+                "outputPath": "src/main/java/com/yupi/springbootinit/MainApplication.java",
+                "generateType": "dynamic"
+            },
+            {
+                "type": "file",
+                "inputPath": "src/main/java/com/yupi/springbootinit/model/dto/user/UserAddRequest.java.ftl;",
+                "outputPath": "src/main/java/com/yupi/springbootinit/model/dto/user/UserAddRequest.java",
+                "generateType": "dynamic"
+            },
+            {
+                "type": "file",
+                "inputPath": ".DS_Store",
+                "outputPath": ".DS_Store",
+                "generateType": "static"
+            },
+            {
+                "type": "file",
+                "inputPath": "src/.DS_Store",
+                "outputPath": "src/.DS_Store",
+                "generateType": "static"
+            },
+            {
+                "type": "file",
+                "inputPath": "src/main/java/com/yupi/springbootinit/model/entity/User.java.ftl;",
+                "outputPath": "src/main/java/com/yupi/springbootinit/model/entity/User.java",
+                "generateType": "dynamic"
+            },
+            {
+                "type": "file",
+                "inputPath": "src/main/java/com/yupi/springbootinit/common/ResultUtils.java.ftl;",
+                "outputPath": "src/main/java/com/yupi/springbootinit/common/ResultUtils.java",
+                "generateType": "dynamic"
+            },
+            {
+                "type": "file",
+                "inputPath": "src/main/java/com/yupi/springbootinit/mapper/UserMapper.java.ftl;",
+                "outputPath": "src/main/java/com/yupi/springbootinit/mapper/UserMapper.java",
+                "generateType": "dynamic"
+            },
+            {
+                "type": "file",
+                "condition": "needCors",
+                "inputPath": "src/main/java/com/yupi/springbootinit/config/CorsConfig.java.ftl;",
+                "outputPath": "src/main/java/com/yupi/springbootinit/config/CorsConfig.java",
+                "generateType": "dynamic"
+            },
+            {
+                "type": "file",
+                "inputPath": "src/main/java/com/yupi/springbootinit/exception/ThrowUtils.java.ftl;",
+                "outputPath": "src/main/java/com/yupi/springbootinit/exception/ThrowUtils.java",
+                "generateType": "dynamic"
+            },
+            {
+                "type": "file",
+                "inputPath": "src/main/java/com/yupi/springbootinit/controller/UserController.java.ftl;",
+                "outputPath": "src/main/java/com/yupi/springbootinit/controller/UserController.java",
+                "generateType": "dynamic"
+            },
+            {
+                "type": "file",
+                "inputPath": "src/main/java/com/yupi/springbootinit/common/BaseResponse.java.ftl;",
+                "outputPath": "src/main/java/com/yupi/springbootinit/common/BaseResponse.java",
+                "generateType": "dynamic"
+            },
+            {
+                "type": "file",
+                "inputPath": "README.md",
+                "outputPath": "README.md",
+                "generateType": "static"
+            },
+            {
+                "type": "file",
+                "inputPath": "Dockerfile",
+                "outputPath": "Dockerfile",
+                "generateType": "static"
+            },
+            {
+                "type": "file",
+                "inputPath": "src/main/java/com/yupi/springbootinit/config/JsonConfig.java.ftl;",
+                "outputPath": "src/main/java/com/yupi/springbootinit/config/JsonConfig.java",
+                "generateType": "dynamic"
+            },
+            {
+                "type": "file",
+                "inputPath": "src/main/java/com/yupi/springbootinit/model/dto/user/UserUpdateRequest.java.ftl;",
+                "outputPath": "src/main/java/com/yupi/springbootinit/model/dto/user/UserUpdateRequest.java",
+                "generateType": "dynamic"
+            },
+            {
+                "type": "file",
+                "inputPath": "src/main/java/com/yupi/springbootinit/service/UserService.java.ftl;",
+                "outputPath": "src/main/java/com/yupi/springbootinit/service/UserService.java",
+                "generateType": "dynamic"
+            },
+            {
+                "type": "file",
+                "inputPath": "src/main/java/com/yupi/springbootinit/model/dto/user/UserLoginRequest.java.ftl;",
+                "outputPath": "src/main/java/com/yupi/springbootinit/model/dto/user/UserLoginRequest.java",
+                "generateType": "dynamic"
+            },
+            {
+                "type": "file",
+                "inputPath": "src/main/resources/application.yml.ftl;",
+                "outputPath": "src/main/resources/application.yml",
+                "generateType": "dynamic"
+            }
+        ]
+    },
+    "modelConfig": {
+        "models": [
+            {
+                "type": "MysqlConfig",
+                "description": "用于生成MYSQL数据库配置",
+                "groupKey": "mysqlConfig",
+                "groupName": "MYSQL数据库配置",
+                "models": [
+                    {
+                        "fieldName": "password",
+                        "type": "String",
+                        "description": "数据库密码",
+                        "defaultValue": "123456"
+                    },
+                    {
+                        "fieldName": "url",
+                        "type": "String",
+                        "description": "数据库地址",
+                        "defaultValue": "jdbc:mysql://localhost:1433/mberpdb"
+                    },
+                    {
+                        "fieldName": "username",
+                        "type": "String",
+                        "description": "数据库用户名",
+                        "defaultValue": "sa"
+                    }
+                ]
+            },
+            {
+                "type": "DocsConfig",
+                "description": "用于生成接口文档配置",
+                "groupKey": "docsConfig",
+                "groupName": "接口配置文档",
+                "condition": "needDocs",
+                "models": [
+                    {
+                        "fieldName": "description",
+                        "type": "String",
+                        "description": "接口文档描述",
+                        "defaultValue": "springboot-init"
+                    },
+                    {
+                        "fieldName": "title",
+                        "type": "String",
+                        "description": "接口文档标题",
+                        "defaultValue": "接口文档"
+                    },
+                    {
+                        "fieldName": "version",
+                        "type": "String",
+                        "description": "接口文档版本",
+                        "defaultValue": "1.0"
+                    }
+                ]
+            },
+            {
+                "fieldName": "needDocs",
+                "type": "boolean",
+                "description": "是否开启接口文档功能",
+                "defaultValue": true
+            },
+            {
+                "fieldName": "needPost",
+                "type": "boolean",
+                "description": "是否开启帖子相关内容",
+                "defaultValue": true
+            },
+            {
+                "fieldName": "needCors",
+                "type": "boolean",
+                "description": "是否开跨域",
+                "defaultValue": true
+            },
+            {
+                "fieldName": "needEs",
+                "type": "boolean",
+                "description": "是否开启Es功能",
+                "defaultValue": true
+            },
+            {
+                "fieldName": "basePackage",
+                "type": "String",
+                "description": "基础包名",
+                "defaultValue": "com.scarit"
+            },
+            {
+                "fieldName": "needRedis",
+                "type": "boolean",
+                "description": "是否开启Redis功能",
+                "defaultValue": true
+            }
+        ]
+    }
+}

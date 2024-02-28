@@ -1,6 +1,12 @@
 package com.scarit.maker;
 
 
+import com.scarit.maker.generator.main.GenerateTemplate;
+import com.scarit.maker.generator.main.MainGenerator;
+import freemarker.template.TemplateException;
+
+import java.io.IOException;
+
 /**
  * @author ADI
  * @description: TODO
@@ -8,11 +14,9 @@ package com.scarit.maker;
  */
 
 public class Main {
-//    public static void main(String[] args) {
-//
-//        CommandExecutor executor = new CommandExecutor();
-//        args = new String[]{ "generate","-l","-g"};
-//        executor.doExecute(args);
-//
-//    }
+    public static void main(String[] args) throws TemplateException, IOException, InterruptedException {
+
+        MainGenerator mainGenerator = new MainGenerator();
+        mainGenerator.doGenerate();
+    }
 }

@@ -160,14 +160,9 @@ public class TemplateMaker {
         // 如果是模型组
         TemplateMakerModelConfig.ModelGroupConfig modelGroupConfig = templateMakerModelConfig.getModelGroupConfig();
         if (modelGroupConfig != null) {
-            String groupKey = modelGroupConfig.getGroupKey();
-            String condition = modelGroupConfig.getCondition();
-            String groupName = modelGroupConfig.getGroupName();
-
+            // 复制变量
             Meta.ModelConfig.ModelInfo groupModelInfo = new Meta.ModelConfig.ModelInfo();
-            groupModelInfo.setGroupKey(groupKey);
-            groupModelInfo.setGroupName(groupName);
-            groupModelInfo.setCondition(condition);
+            BeanUtil.copyProperties(modelGroupConfig, groupModelInfo);
 
             // 模型全部放到一个分组内
             groupModelInfo.setModels(inputModelInfoList);
@@ -213,7 +208,7 @@ public class TemplateMaker {
             fileList = fileList.stream().filter(file -> !file.getAbsolutePath().endsWith(".ftl")).collect(Collectors.toList());
 
             for (File file : fileList) {
-                    Meta.FileConfig.FileInfo fileInfo = makeFileTemplate(templateMakerModelConfig, sourceRootPath, file);
+                    Meta.FileConfig.FileInfo fileInfo = makeFileTemplate(templateMakerModelConfig, sourceRootPath, file,fileInfoConfig);
                     newFileInfoList.add(fileInfo);
             }
 
@@ -240,12 +235,17 @@ public class TemplateMaker {
 
     /**
      * 制作单个文件模版
+     *
      * @param templateMakerModelConfig
      * @param sourceRootPath
      * @param inputFile
      * @return
      */
-    private static Meta.FileConfig.FileInfo makeFileTemplate(TemplateMakerModelConfig templateMakerModelConfig, String sourceRootPath, File inputFile) {
+    private static Meta.FileConfig.FileInfo makeFileTemplate(TemplateMakerModelConfig templateMakerModelConfig,
+                                                             String sourceRootPath,
+                                                             File inputFile,
+                                                             TemplateMakerFileConfig.FileInfoConfig fileInfoConfig) {
+
         // 要挖坑的文件的绝对路径
         String fileInputAbsolutePath = inputFile.getAbsolutePath().replaceAll("\\\\", "/");
         String fileOutputAbsolutePath = fileInputAbsolutePath + ".ftl";
@@ -253,7 +253,7 @@ public class TemplateMaker {
         // 文件输入输出的相对路径
         String fileInputPath = fileInputAbsolutePath.replace(sourceRootPath + "/", "");
         String fileOutputPath = fileInputPath + ".ftl;";
-        
+
         // 使用字符串替换生成模版
         String fileContent;
         // 如果已有模板，则不是第一次制作，直接读取生成好的模板
@@ -265,7 +265,7 @@ public class TemplateMaker {
         else {
             fileContent = FileUtil.readUtf8String(fileInputAbsolutePath);
         }
-        
+
         // 支持多个模型：对同一个文件的内容，遍历模型进行多轮替换
         TemplateMakerModelConfig.ModelGroupConfig modelGroupConfig = templateMakerModelConfig.getModelGroupConfig();
         String newFileContent = fileContent;
@@ -291,6 +291,7 @@ public class TemplateMaker {
         fileInfo.setInputPath(fileOutputPath);
         fileInfo.setOutputPath(fileInputPath);
         fileInfo.setType(FileTypeEnum.FILE.getValue());
+        fileInfo.setCondition(fileInfoConfig.getCondition());
         // 设置文件类型默认值为 DYNAMIC
         fileInfo.setGenerateType(FileGenerateTypeEnum.DYNAMIC.getValue());
 
