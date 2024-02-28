@@ -252,7 +252,7 @@ public class TemplateMaker {
 
         // 文件输入输出的相对路径
         String fileInputPath = fileInputAbsolutePath.replace(sourceRootPath + "/", "");
-        String fileOutputPath = fileInputPath + ".ftl;";
+        String fileOutputPath = fileInputPath + ".ftl";
 
         // 使用字符串替换生成模版
         String fileContent;
