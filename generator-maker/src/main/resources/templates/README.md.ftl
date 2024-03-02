@@ -17,7 +17,7 @@ generator <命令> <选项参数>
 示例命令：
 
 ```
-generator generate <#list modelConfig.models as modelInfo><#if modelInfo.groupKey??><#list modelInfo.models as subModelInfo>-${subModelInfo.fieldName}</#list><#else>${modelInfo.fieldName}</#if></#list>
+generator generate <#list modelConfig.models as modelInfo><#if modelInfo.groupKey??><#list modelInfo.models as subModelInfo>--${subModelInfo.fieldName} </#list><#else>--${modelInfo.fieldName} </#if></#list>
 ```
 
 ## 参数说明
