@@ -64,7 +64,7 @@ const Login: React.FC = () => {
             minWidth: 280,
             maxWidth: '75vw',
           }}
-          logo={<img alt="logo" style={{ height: '100%' }} src="/logo.svg" />}
+          logo={<img alt="logo" style={{ height: '100%' }} src="/logo.png" />}
           title="代码生成平台"
           subTitle={'代码生成器在线制作，提升开发效率'}
           initialValues={{

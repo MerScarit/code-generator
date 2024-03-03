@@ -34,7 +34,7 @@ import java.util.List;
  * @author ADI
  */
 @RestController
-@RequestMapping("/Generator")
+@RequestMapping("/generator")
 @Slf4j
 public class GeneratorController {
 

@@ -79,6 +79,128 @@ declare namespace API {
   type getPostVOByIdParams = {
     id: string;
   };
+  type FileConfig = {
+    inputRootPath?: string;
+    outputRootPath?: string;
+    sourceRootPath?: string;
+    type?: string;
+    files?: FileInfo[];
+  };
+
+  type FileInfo = {
+    inputPath?: string;
+    outputPath?: string;
+    type?: string;
+    generateType?: string;
+    condition?: string;
+    groupKey?: string;
+    groupName?: string;
+  };
+
+  type Generator = {
+    id?: string;
+    name?: string;
+    description?: string;
+    basePackage?: string;
+    version?: string;
+    author?: string;
+    tags?: string;
+    picture?: string;
+    fileConfig?: string;
+    modelConfig?: string;
+    distPath?: string;
+    status?: number;
+    userId?: string;
+    createTime?: string;
+    updateTime?: string;
+    isDelete?: number;
+  };
+
+  type GeneratorAddRequest = {
+    name?: string;
+    description?: string;
+    basePackage?: string;
+    version?: string;
+    author?: string;
+    tags?: string[];
+    picture?: string;
+    fileConfig?: FileConfig;
+    modelConfig?: ModelConfig;
+    distPath?: string;
+    status?: number;
+  };
+
+  type GeneratorEditRequest = {
+    id?: string;
+    name?: string;
+    description?: string;
+    basePackage?: string;
+    version?: string;
+    author?: string;
+    tags?: string[];
+    picture?: string;
+    fileConfig?: FileConfig;
+    modelConfig?: ModelConfig;
+    distPath?: string;
+  };
+
+  type GeneratorQueryRequest = {
+    current?: number;
+    pageSize?: number;
+    sortField?: string;
+    sortOrder?: string;
+    id?: string;
+    notId?: string;
+    searchText?: string;
+    tags?: string[];
+    orTags?: string[];
+    userId?: string;
+    name?: string;
+    description?: string;
+    basePackage?: string;
+    version?: string;
+    author?: string;
+    distPath?: string;
+    status?: number;
+  };
+
+  type GeneratorUpdateRequest = {
+    id?: string;
+    name?: string;
+    description?: string;
+    basePackage?: string;
+    version?: string;
+    author?: string;
+    tags?: string[];
+    picture?: string;
+    fileConfig?: FileConfig;
+    modelConfig?: ModelConfig;
+    distPath?: string;
+    status?: number;
+  };
+
+  type GeneratorVO = {
+    id?: string;
+    name?: string;
+    description?: string;
+    basePackage?: string;
+    version?: string;
+    author?: string;
+    tags?: string[];
+    picture?: string;
+    fileConfig?: FileConfig;
+    modelConfig?: ModelConfig;
+    distPath?: string;
+    status?: number;
+    userId?: string;
+    createTime?: string;
+    updateTime?: string;
+    user?: UserVO;
+  };
+
+  type getGeneratorVOByIdParams = {
+    id: string;
+  };
 
   type getUserByIdParams = {
     id: string;
