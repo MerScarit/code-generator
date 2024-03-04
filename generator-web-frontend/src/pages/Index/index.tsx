@@ -1,4 +1,4 @@
-import { listGeneratorVoByPage } from '@/services/backend/generatorController';
+import { listGeneratorVoByPageUsingPost } from '@/services/backend/generatorController';
 import { UserAddOutlined, UserOutlined } from '@ant-design/icons';
 import { PageContainer, ProFormSelect, ProFormText, QueryFilter, DefaultFooter } from '@ant-design/pro-components';
 import { Avatar, Card, Flex, Image, Input, List, message, Tabs, Tag, Typography } from 'antd';
@@ -37,7 +37,7 @@ const IndexPage: React.FC = () => {
   const doSearch = async () => {
     try {
       setLoading(true);
-      const res = await listGeneratorVoByPage(searchParams);
+      const res = await listGeneratorVoByPageUsingPost(searchParams);
       setDataList(res.data?.records ?? []);
       setTotal(Number(res.data?.total) ?? 0);
     } catch (error: any) {

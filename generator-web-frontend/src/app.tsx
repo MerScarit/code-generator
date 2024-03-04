@@ -4,7 +4,7 @@ import { history } from '@umijs/max';
 import defaultSettings from '../config/defaultSettings';
 import { AvatarDropdown } from './components/RightContent/AvatarDropdown';
 import { requestConfig } from './requestConfig';
-import {getLoginUser} from "@/services/backend/userController";
+import {getLoginUserUsingGet} from "@/services/backend/userController";
 import {message} from "antd";
 import logo from '@/assets/logo.png'
 const loginPath = '/user/login';
