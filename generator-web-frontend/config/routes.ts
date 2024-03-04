@@ -1,6 +1,7 @@
 export default [
   { path: '/user', layout: false, routes: [{ path: '/user/login', component: './User/Login' },{ path: '/user/register', component: './User/Register' }] },
   { path: '/', icon: 'home', component: './Index', name: "" },
+  { path: '/test/file', icon: 'home', component: './Test/File', name: "文件测试上传下载",hideInMenu:true },
   {
     path: '/admin',
     icon: 'crown',

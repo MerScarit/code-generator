@@ -1,5 +1,5 @@
 import Footer from '@/components/Footer';
-import { userLogin, userRegister } from '@/services/backend/userController';
+import { userLogin, userRegister, userRegisterUsingPost } from '@/services/backend/userController';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { LoginForm, ProFormText } from '@ant-design/pro-components';
 import { useEmotionCss } from '@ant-design/use-emotion-css';
@@ -29,7 +29,7 @@ const UserRegisterPage: React.FC = () => {
   const handleSubmit = async (values: API.UserRegisterRequest) => {
     try {
       // 登录
-      await userRegister({
+      await userRegisterUsingPost({
         ...values,
       });
 
