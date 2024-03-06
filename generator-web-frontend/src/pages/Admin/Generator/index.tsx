@@ -87,18 +87,18 @@ const GeneratorAdminPage: React.FC = () => {
       title: '标签',
       dataIndex: 'tags',
       valueType: 'text',
-      render(_,record){
-        if(!record.tags){
-          return <></>
+      render(_, record) {
+        if (!record.tags) {
+          return <></>;
         }
-        return JSON.parse(record.tags).map((tag: string) =>{
-          return <Tag key={tag}>{tag}</Tag>
-        })
+        return JSON.parse(record.tags).map((tag: string) => {
+          return <Tag key={tag}>{tag}</Tag>;
+        });
       },
-      renderFormItem:(schema)=>{
+      renderFormItem: (schema) => {
         const { fieldProps } = schema;
-        return <Select {...fieldProps} mode="tags"/>
-      }
+        return <Select {...fieldProps} mode='tags' />;
+      },
     },
     {
       title: '图片',
@@ -155,7 +155,7 @@ const GeneratorAdminPage: React.FC = () => {
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => (
-        <Space size="middle">
+        <Space size='middle'>
           <Typography.Link
             onClick={() => {
               setCurrentRow(record);
@@ -164,7 +164,7 @@ const GeneratorAdminPage: React.FC = () => {
           >
             修改
           </Typography.Link>
-          <Typography.Link type="danger" onClick={() => handleDelete(record)}>
+          <Typography.Link type='danger' onClick={() => handleDelete(record)}>
             删除
           </Typography.Link>
         </Space>

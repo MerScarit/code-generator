@@ -169,7 +169,7 @@ public class GeneratorController {
 
     /**
      * 分页获取列表（封装类）
-     *
+     *Post
      * @param generatorQueryRequest
      * @param request
      * @return

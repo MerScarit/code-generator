@@ -1,11 +1,15 @@
 import { Descriptions, DescriptionsProps, Divider } from 'antd';
 import { FileOutlined } from '@ant-design/icons';
-
+import React from 'react';
 
 interface Props{
   data: API.GeneratorVO;
 }
 
+/**
+ * 模型配置
+ * @constructor
+ */
 const ModelConfig: React.FC<Props> = (props) => {
 
   const { data } = props;
@@ -72,7 +76,7 @@ const ModelConfig: React.FC<Props> = (props) => {
             {
               key: 'defaultValue',
               label: '默认值',
-              children: <p>{model.defaultValue}</p>,
+              children: <p>{model.defaultValue as any}</p>,
             },
             {
               key: 'abbr',
@@ -85,6 +89,7 @@ const ModelConfig: React.FC<Props> = (props) => {
               children: <p>{model.condition}</p>,
             },
           ];
+
           return (
             <>
               <Descriptions column={2} key={index} items={modelItems} />

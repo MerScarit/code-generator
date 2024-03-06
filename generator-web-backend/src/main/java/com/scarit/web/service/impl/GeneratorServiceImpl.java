@@ -129,6 +129,7 @@ public class GeneratorServiceImpl extends ServiceImpl<GeneratorMapper, Generator
         }
         UserVO userVO = userService.getUserVO(user);
         generatorVO.setAuthor(userVO.getUserName());
+        generatorVO.setUser(userVO);
         return generatorVO;
     }
 

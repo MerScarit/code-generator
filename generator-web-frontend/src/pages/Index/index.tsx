@@ -6,6 +6,7 @@ import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import FileUploader from '@/components/FileUploader';
 import PictureUploader from '@/components/PictureUploader';
+import { Link } from '@@/exports';
 
 /**
  * 主页
@@ -74,116 +75,121 @@ const IndexPage: React.FC = () => {
 
 
   return (<PageContainer title={<></>}>
-    <Flex justify='center'>
-      <Input.Search
-        style={{
-          width: '40vw',
-          minWidth: 320,
-        }}
-        placeholder="请输入搜索的生成器"
-        enterButton="搜索"
-        allowClear
+      <Flex justify='center'>
+        <Input.Search
+          style={{
+            width: '40vw',
+            minWidth: 320,
+          }}
+          placeholder='请输入搜索的生成器'
+          enterButton='搜索'
+          allowClear
+          size='large'
+          onChange={(e) => {
+            searchParams.searchText = e.target.value;
+          }}
+          onSearch={(value: string) => {
+            setSearchParams({
+              ...DEFAULT_PAGE_PARAMS,
+              searchText: value,
+            });
+
+          }}
+        />
+      </Flex>
+      <div style={{ marginBottom: 16 }} />
+
+      <Tabs
         size='large'
-        onChange={(e) => {
-          searchParams.searchText = e.target.value;
+        defaultActiveKey={'latest'}
+        onChange={() => {
         }}
-        onSearch={(value: string) => {
+        items={[
+          {
+            key: 'latest',
+            label: '最新',
+          },
+          {
+            key: 'recommend',
+            label: '推荐',
+          },
+        ]}
+      />
+      <QueryFilter
+        defaultCollapsed={false}
+        span={12}
+        labelWidth='auto'
+        labelAlign='left'
+        style={{ padding: '16px ' }}
+        onChange={() => {
+        }}
+        onFinish={async (values: API.GeneratorQueryRequest) => {
           setSearchParams({
             ...DEFAULT_PAGE_PARAMS,
-            searchText: value
-          })
-
-        }}
-      />
-    </Flex>
-    <div style={{ marginBottom: 16 }} />
-
-    <Tabs
-      size='large'
-      defaultActiveKey={'latest'}
-      onChange={() => { }}
-      items={[
-        {
-          key: 'latest',
-          label: '最新',
-        },
-        {
-          key: 'recommend',
-          label: '推荐',
-        }
-      ]}
-    />
-    <QueryFilter
-      defaultCollapsed={false}
-      span={12}
-      labelWidth="auto"
-      labelAlign='left'
-      style={{ padding: '16px ' }}
-      onChange={() => { }}
-      onFinish={async (values: API.GeneratorQueryRequest) => {
-        setSearchParams({
-          ...DEFAULT_PAGE_PARAMS,
-          // @ts-ignore
-          ...values,
-          searchText: searchParams.searchText,
-        });
-      }}
-    >
-      <ProFormSelect name="tags" label="标签" mode='tags' />
-      <ProFormText name="name" label="名称" />
-      <ProFormText name="description" label="描述" />
-    </QueryFilter>
-    <div style={{ marginBottom: 24 }} />
-
-
-    <List<API.GeneratorVO>
-      rowKey="id"
-      loading={loading}
-      pagination={{
-        current: searchParams.current,
-        pageSize: searchParams.pageSize,
-        total,
-        onChange(current, pageSize) {
-          setSearchParams({
-            ...searchParams,
-            current,
-            pageSize,
+            // @ts-ignore
+            ...values,
+            searchText: searchParams.searchText,
           });
-        },
-      }}
-      grid={{
-        gutter: 16,
-        xs: 1,
-        sm: 2,
-        md: 3,
-        lg: 3,
-        xl: 4,
-        xxl: 4,
-      }}
-      dataSource={dataList}
-      renderItem={(data: API.GeneratorVO) => (
-        <List.Item>
-          <Card hoverable cover={<Image alt={data.name} src={data.picture} />}>
-            <Card.Meta
-              title={<a>{data.name}</a>}
-              description={
-                <Typography.Paragraph ellipsis={{ row: 2 }} style={{ height: 44}}>
-                  {data.description}
-                </Typography.Paragraph>
-              }
-            />
-            {tagListView(data.tags)}
-            <Flex justify='space-between' align='center'>
-              <Typography.Paragraph type='secondary' style={{ fontSize: 12 }}>{moment(data.createTime).fromNow()}</Typography.Paragraph>
-              <div>
-                <Avatar icon={data.user?.userAvatar ?? <UserOutlined />} />
-              </div>
-            </Flex>
-          </Card>
-        </List.Item>
-      )}
-    />
-  </PageContainer>
+        }}
+      >
+        <ProFormSelect name='tags' label='标签' mode='tags' />
+        <ProFormText name='name' label='名称' />
+        <ProFormText name='description' label='描述' />
+      </QueryFilter>
+      <div style={{ marginBottom: 24 }} />
+
+
+      <List<API.GeneratorVO>
+        rowKey='id'
+        loading={loading}
+        pagination={{
+          current: searchParams.current,
+          pageSize: searchParams.pageSize,
+          total,
+          onChange(current, pageSize) {
+            setSearchParams({
+              ...searchParams,
+              current,
+              pageSize,
+            });
+          },
+        }}
+        grid={{
+          gutter: 16,
+          xs: 1,
+          sm: 2,
+          md: 3,
+          lg: 3,
+          xl: 4,
+          xxl: 4,
+        }}
+        dataSource={dataList}
+        renderItem={(data: API.GeneratorVO) => (
+          <List.Item>
+            <Link to={`/generator/detail/${data.id}`}>
+              <Card hoverable cover={<Image alt={data.name} src={data.picture} />}>
+                <Card.Meta
+                  title={<a>{data.name}</a>}
+                  description={
+                    <Typography.Paragraph ellipsis={{ row: 2 }} style={{ height: 44 }}>
+                      {data.description}
+                    </Typography.Paragraph>
+                  }
+                />
+                {tagListView(data.tags)}
+                <Flex justify='space-between' align='center'>
+                  <Typography.Paragraph type='secondary'
+                                        style={{ fontSize: 12 }}>{moment(data.createTime).fromNow()}</Typography.Paragraph>
+                  <div>
+                    <Avatar icon={data.user?.userAvatar ?? <UserOutlined />} />
+                  </div>
+                </Flex>
+              </Card>
+            </Link>
+          </List.Item>
+        )}
+      />
+    </PageContainer>
   );
 
 };

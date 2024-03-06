@@ -1,18 +1,16 @@
+import { FileOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import { Descriptions, DescriptionsProps, Divider } from 'antd';
-import { FileOutlined, InfoOutlined } from '@ant-design/icons';
+import React from 'react';
 
-
-interface Props{
+interface Props {
   data: API.GeneratorVO;
 }
 
 /**
  * 文件配置
- * @param props
  * @constructor
  */
 const FileConfig: React.FC<Props> = (props) => {
-
   const { data } = props;
 
   const fileConfig = data?.fileConfig;
@@ -94,12 +92,12 @@ const FileConfig: React.FC<Props> = (props) => {
             },
             {
               key: 'type',
-              label: '类型',
+              label: '文件类别',
               children: <p>{file.type}</p>,
             },
             {
               key: 'generateType',
-              label: '文件生成类型',
+              label: '文件生成类别',
               children: <p>{file.generateType}</p>,
             },
             {
@@ -108,6 +106,7 @@ const FileConfig: React.FC<Props> = (props) => {
               children: <p>{file.condition}</p>,
             },
           ];
+
           return (
             <>
               <Descriptions column={2} key={index} items={fileItems} />
@@ -124,7 +123,7 @@ const FileConfig: React.FC<Props> = (props) => {
       <Descriptions
         title={
           <>
-            <InfoOutlined /> 基本信息
+            <InfoCircleOutlined /> 基本信息
           </>
         }
         column={2}

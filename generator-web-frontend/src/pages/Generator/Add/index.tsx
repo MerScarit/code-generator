@@ -7,7 +7,7 @@ import {
   StepsForm,
 } from '@ant-design/pro-components';
 import type {ProFormInstance} from '@ant-design/pro-components';
-import { Button, message } from 'antd';
+import { message } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import PictureUploader from '@/components/PictureUploader';
 import FileUploader from '@/components/FileUploader';
