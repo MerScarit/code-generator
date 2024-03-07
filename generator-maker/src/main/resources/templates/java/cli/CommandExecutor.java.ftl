@@ -1,5 +1,7 @@
 package ${basePackage}.cli;
 
+import ${basePackage}.cli.command.JsonGenerateCommand;
+
 import ${basePackage}.cli.command.ConfigCommand;
 import ${basePackage}.cli.command.GenerateCommand;
 import ${basePackage}.cli.command.ListCommand;
@@ -17,7 +19,8 @@ public class CommandExecutor implements Runnable {
     {
         commandLine = new CommandLine(this).addSubcommand(new ConfigCommand())
                 .addSubcommand(new ListCommand())
-                .addSubcommand(new GenerateCommand());
+                .addSubcommand(new GenerateCommand())
+                .addSubcommand(new JsonGenerateCommand());
     }
 
     @Override

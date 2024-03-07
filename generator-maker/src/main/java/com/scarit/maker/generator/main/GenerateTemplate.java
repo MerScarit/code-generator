@@ -43,7 +43,7 @@ public abstract class GenerateTemplate {
 
 
         // 5.生成精简版本的代码生成器
-        buildDist(outputPath, shellOutputFilePath, jarPath,sourceCopyDestPath);
+        buildDist(outputPath,sourceCopyDestPath, jarPath, shellOutputFilePath);
     }
 
     /**
@@ -77,7 +77,7 @@ public abstract class GenerateTemplate {
         FileUtil.copy(targetJarPath, distJarPath, true);
         //拷贝脚本文件
         FileUtil.copy(shellOutputFilePath, distOutputPath, true);
-        FileUtil.copy(shellOutputFilePath, distOutputPath, true);
+        FileUtil.copy(shellOutputFilePath+ ".bat", distOutputPath, true);
         //拷贝源模板文件
         FileUtil.copy(sourceCopyDestPath, distOutputPath, true);
         
@@ -132,6 +132,11 @@ public abstract class GenerateTemplate {
         //cli.command.GenterateCommand
         inputFilePath = inputResourcesPath + File.separator + "templates/java/cli/command/GenerateCommand.java.ftl";
         outputFilePath = ouputBaseJavaPackagePath + "/cli/command/GenerateCommand.java";
+        DynamicFileGenterator.doGenerate(inputFilePath, outputFilePath, meta);
+
+        //cli.command.JsonGenterateCommand
+        inputFilePath = inputResourcesPath + File.separator + "templates/java/cli/command/JsonGenerateCommand.java.ftl";
+        outputFilePath = ouputBaseJavaPackagePath + "/cli/command/JsonGenerateCommand.java";
         DynamicFileGenterator.doGenerate(inputFilePath, outputFilePath, meta);
 
         //cli.command.ConfigCommand

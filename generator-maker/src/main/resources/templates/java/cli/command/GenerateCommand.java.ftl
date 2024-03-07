@@ -78,7 +78,7 @@ public class GenerateCommand implements Callable<Integer> {
             dataModel.${modelInfo.groupKey} = ${modelInfo.groupKey};
                 </#if>
             </#list>
-        MainGenerator.doGenerator(dataModel);
-        return 0;
+            MainGenerator.doGenerator(dataModel);
+            return 0;
     }
 }
