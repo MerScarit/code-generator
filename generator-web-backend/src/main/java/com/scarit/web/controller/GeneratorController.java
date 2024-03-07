@@ -66,6 +66,7 @@ public class GeneratorController {
         generator.setFileConfig(JSONUtil.toJsonStr(fileConfig));
         Meta.ModelConfig modelConfig = generatorAddRequest.getModelConfig();
         generator.setModelConfig(JSONUtil.toJsonStr(modelConfig));
+        
         // 参数校验
         generatorService.validGenerator(generator, true);
         User loginUser = userService.getLoginUser(request);
@@ -169,7 +170,7 @@ public class GeneratorController {
 
     /**
      * 分页获取列表（封装类）
-     *Post
+     *
      * @param generatorQueryRequest
      * @param request
      * @return

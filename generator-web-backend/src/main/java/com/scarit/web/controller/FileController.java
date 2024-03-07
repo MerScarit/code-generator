@@ -16,6 +16,7 @@ import com.scarit.web.manager.CosManager;
 import com.scarit.web.model.dto.file.UploadFileRequest;
 import com.scarit.web.model.entity.User;
 import com.scarit.web.model.enums.FileUploadBizEnum;
+import com.scarit.web.service.GeneratorService;
 import com.scarit.web.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -43,6 +44,9 @@ public class FileController {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private GeneratorService generatorService;
 
     @Resource
     private CosManager cosManager;
@@ -75,6 +79,7 @@ public class FileController {
             file = File.createTempFile(filepath, null);
             multipartFile.transferTo(file);
             cosManager.putObject(filepath, file);
+            
             // 返回可访问地址
             return ResultUtils.success(filepath);
         } catch (Exception e) {

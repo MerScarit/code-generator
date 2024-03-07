@@ -12,6 +12,8 @@ interface Props{
   description?: string;
 }
 
+// 在实际上传成功的回调里调用
+// handleUploadSuccess(response);
 
 /**
  * 文件上传组件
@@ -23,7 +25,6 @@ const FileUploader: React.FC<Props> = (props) => {
   const [loading, setLoading] = useState(false);
 
 
-
   const uploadProps: UploadProps = {
     name: 'file',
     listType: 'text',
@@ -31,6 +32,9 @@ const FileUploader: React.FC<Props> = (props) => {
     maxCount: 1,
     fileList: value,
     disabled: loading,
+    onChange: ({ fileList }) => {
+      onChange?.(fileList);
+    },
     customRequest: async (fileObj: any) => {
       setLoading(true);
       try {
@@ -54,7 +58,7 @@ const FileUploader: React.FC<Props> = (props) => {
       <p className="ant-upload-drag-icon">
         <InboxOutlined />
       </p>
-      <p className="ant-upload-text">点击或拖摘文件上传</p>
+      <p className="ant-upload-text">点击或拖拽文件上传</p>
       <p className="ant-upload-hint">{description}</p>
     </Dragger>
   );

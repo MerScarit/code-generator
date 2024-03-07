@@ -20,8 +20,6 @@ import { history } from '@umijs/max';
 import { useSearchParams } from '@@/exports';
 import { COS_HOST } from '@/constants';
 import { UploadFile } from 'antd/lib';
-import { set } from 'rc-util';
-
 
 
 /**
@@ -78,6 +76,7 @@ const GeneratorAddPage : React.FC = () => {
       loadData();
     }
   }, [id]);
+
 
   /**
    * 新增生成器
@@ -138,7 +137,7 @@ const GeneratorAddPage : React.FC = () => {
     } else {
       await doAdd(values);
     }
-
+    console.log("values"+values.distPath);
 
 
   };
@@ -147,7 +146,7 @@ const GeneratorAddPage : React.FC = () => {
     <ProCard>
       {/*// 创建或者已加载要更新的数据时，才渲染表单，并顺利填充默认值*/}
       {(!id || oldData) && (
-        <StepsForm<API.GeneratorAddRequest> formRef={formRef} onFinish={doSubmit} formProps={{ initialValues: oldData }}>
+        <StepsForm<API.GeneratorAddRequest | API.GeneratorEditRequest> formRef={formRef} onFinish={doSubmit} formProps={{ initialValues: oldData }}>
           <StepsForm.StepForm
             name='base'
             title='基本信息'
@@ -203,7 +202,10 @@ const GeneratorAddPage : React.FC = () => {
           </StepsForm.StepForm>
           <StepsForm.StepForm name='dist' title='生成器文件'>
             <ProFormItem label='产物包' name='distPath'>
-              <FileUploader biz='generator_dist' description='请上传生成器文件压缩包+' />
+              <FileUploader
+                biz='generator_dist'
+                description='请上传生成器文件压缩包+'
+              />
             </ProFormItem>
           </StepsForm.StepForm>
         </StepsForm>
