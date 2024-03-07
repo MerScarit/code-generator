@@ -31,6 +31,9 @@ const FileUploader: React.FC<Props> = (props) => {
     maxCount: 1,
     fileList: value,
     disabled: loading,
+    onChange: ({fileList}) =>{
+      onChange?.(fileList);
+    },
     customRequest: async (fileObj: any) => {
       setLoading(true);
       try {

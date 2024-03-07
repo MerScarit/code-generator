@@ -5,7 +5,6 @@ import cn.hutool.core.io.FileUtil;
 import com.scarit.maker.template.enums.FileFilterRangeEnum;
 import com.scarit.maker.template.enums.FileFilterRuleEnum;
 import com.scarit.maker.template.model.FileFilterConfig;
-import com.scarit.maker.template.model.TemplateMakerFileConfig;
 
 import java.io.File;
 import java.util.List;

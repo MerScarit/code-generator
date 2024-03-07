@@ -1,7 +1,5 @@
 package com.scarit.maker.template.model;
 
-import com.scarit.maker.meta.Meta;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

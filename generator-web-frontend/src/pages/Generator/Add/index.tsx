@@ -53,7 +53,7 @@ const GeneratorAddPage : React.FC = () => {
         const { distPath } = res.data ?? {};
         if (distPath) {
           //@ts-ignore
-          res.data.distPath = [
+          <res className='dat'> </res>a.distPath = [
             {
               uid: id,
               name: '文件' + id,
