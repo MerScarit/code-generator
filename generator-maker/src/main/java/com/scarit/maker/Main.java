@@ -1,7 +1,6 @@
 package com.scarit.maker;
 
 
-import com.scarit.maker.generator.main.GenerateTemplate;
 import com.scarit.maker.generator.main.MainGenerator;
 import freemarker.template.TemplateException;
 

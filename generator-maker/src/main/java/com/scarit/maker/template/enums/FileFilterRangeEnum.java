@@ -2,7 +2,6 @@ package com.scarit.maker.template.enums;
 
 
 import cn.hutool.core.util.ObjUtil;
-import cn.hutool.core.util.ObjectUtil;
 import lombok.Getter;
 
 @Getter

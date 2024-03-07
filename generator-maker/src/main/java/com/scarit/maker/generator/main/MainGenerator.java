@@ -1,5 +1,5 @@
 package com.scarit.maker.generator.main;
-import com.scarit.maker.generator.JarGenerator;
+
 import com.scarit.maker.generator.ZipGenerator;
 import freemarker.template.TemplateException;
 

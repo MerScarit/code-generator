@@ -16,8 +16,10 @@ import com.scarit.maker.template.model.TemplateMakerModelConfig;
 import com.scarit.maker.template.model.TemplateMakerOutputConfig;
 
 import java.io.File;
-import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class TemplateMaker {
