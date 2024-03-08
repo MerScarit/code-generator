@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { message, Upload, UploadProps } from 'antd';
 import { uploadFileUsingPost } from '@/services/backend/fileController';
-import Dragger from 'antd/es/upload/Dragger';
-import { InboxOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { COS_HOST } from '@/constants';
 
 interface Props{

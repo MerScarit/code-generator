@@ -95,38 +95,7 @@ public class FileController {
             }
         }
     }
-    /**
-     * 文件下载
-     * @param filepath
-     * @param response
-     * @throws IOException
-     */
-    @GetMapping("/download")
-    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
-    public void testDownloadFile(String filepath, HttpServletResponse response) throws IOException {
-        COSObjectInputStream cosObjectInput = null;
 
-        try {
-            COSObject cosObject = cosManager.getObject(filepath);
-            cosObjectInput = cosObject.getObjectContent();
-
-            // 处理下载到的流
-            byte[] bytes = IOUtils.toByteArray(cosObjectInput);
-            // 设置响应头
-            response.setHeader("Content-Disposition", "attachment; filename=" + filepath);
-            response.setContentType("application/octet-stream;charset=UTF-8");
-            // 写入响应
-            response.getOutputStream().write(bytes);
-            response.getOutputStream().flush();
-        } catch (Exception e) {
-            log.error("file download error,filepath = " + filepath, e);
-            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "下载失败");
-        } finally {
-            if (cosObjectInput != null) {
-                cosObjectInput.close();
-            }
-        }
-    }
     /**
      * 校验文件
      *
@@ -207,7 +176,7 @@ public class FileController {
             byte[] bytes = IOUtils.toByteArray(cosObjectInput);
             // 设置响应头
             response.setHeader("Content-Disposition", "attachment; filename=" + filepath);
-            response.setContentType("application/octet-stream");
+            response.setContentType("application/octet-stream；charset=UTF-8");
             // 写入响应
             response.getOutputStream().write(bytes);
             response.getOutputStream().flush();

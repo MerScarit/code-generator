@@ -7,7 +7,7 @@ import {
   StepsForm,
 } from '@ant-design/pro-components';
 import type {ProFormInstance} from '@ant-design/pro-components';
-import { message } from 'antd';
+import { message, UploadFile } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import PictureUploader from '@/components/PictureUploader';
 import FileUploader from '@/components/FileUploader';
@@ -19,7 +19,6 @@ import {
 import { history } from '@umijs/max';
 import { useSearchParams } from '@@/exports';
 import { COS_HOST } from '@/constants';
-import { UploadFile } from 'antd/lib';
 
 
 /**
@@ -38,9 +37,9 @@ const GeneratorAddPage : React.FC = () => {
    * @param values
    */
   const loadData = async () => {
-    if (!id) {
-      return;
-    }
+    // if (!id) {
+    //   return;
+    // }
     try {
       const res = await getGeneratorVoByIdUsingGet({
         id,
@@ -51,7 +50,7 @@ const GeneratorAddPage : React.FC = () => {
         const { distPath } = res.data ?? {};
         if (distPath) {
           //@ts-ignore
-          <res className='dat'> </res>a.distPath = [
+          res.data.distPath = [
             {
               uid: id,
               name: '文件' + id,

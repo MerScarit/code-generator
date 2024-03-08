@@ -36,8 +36,6 @@ public class ScriptGenerator {
         stringBuilder.append("@echo off").append("\n");
         stringBuilder.append(String.format("java -jar %s %%*",jarPath));
         FileUtil.writeBytes(stringBuilder.toString().getBytes(StandardCharsets.UTF_8), outputPath + ".bat");
-        
-        
 
     }
     
