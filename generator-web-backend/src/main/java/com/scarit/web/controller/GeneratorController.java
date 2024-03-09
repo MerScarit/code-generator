@@ -13,6 +13,7 @@ import com.scarit.web.common.BaseResponse;
 import com.scarit.web.common.DeleteRequest;
 import com.scarit.web.common.ErrorCode;
 import com.scarit.web.common.ResultUtils;
+import com.scarit.web.constant.FileConstant;
 import com.scarit.web.constant.UserConstant;
 import com.scarit.web.exception.BusinessException;
 import com.scarit.web.exception.ThrowUtils;
@@ -286,7 +287,7 @@ public class GeneratorController {
         }
 
         // 生成器的存储路径
-        String distPath = generator.getDistPath();
+        String distPath = FileConstant.COS_HOST+generator.getDistPath();
         if (distPath == null) {
             throw new BusinessException(ErrorCode.NOT_FOUND_ERROR, "产物包不存在");
         }

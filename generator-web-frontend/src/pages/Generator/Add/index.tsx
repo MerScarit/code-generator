@@ -19,6 +19,7 @@ import {
 import { history } from '@umijs/max';
 import { useSearchParams } from '@@/exports';
 import { COS_HOST } from '@/constants';
+import ModelConfigForm from '@/pages/Generator/Add/components/ModelConfigForm';
 
 
 /**
@@ -190,13 +191,17 @@ const GeneratorAddPage : React.FC = () => {
             </ProFormItem>
           </StepsForm.StepForm>
           <StepsForm.StepForm
-            name='fileConfig'
-            title='文件配置'>
-            {/*todo 待办*/}
+            name='modelConfig'
+            title='模型配置'
+            onFinish={async () => {
+              console.log(formRef.current?.getFieldsValue());
+              return false;
+            }}>
+            <ModelConfigForm formRef={formRef} oldData={oldData} />
           </StepsForm.StepForm>
           <StepsForm.StepForm
-            name='modelConfig'
-            title='模型配置'>
+            name='fileConfig'
+            title='文件配置'>
             {/*todo 待办*/}
           </StepsForm.StepForm>
           <StepsForm.StepForm name='dist' title='生成器文件'>
