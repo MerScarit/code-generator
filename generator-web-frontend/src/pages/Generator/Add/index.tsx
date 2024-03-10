@@ -192,10 +192,19 @@ const GeneratorAddPage : React.FC = () => {
           </StepsForm.StepForm>
           <StepsForm.StepForm
             name='modelConfig'
+<<<<<<< HEAD
             title='模型配置'onFinish={async (values) => {
             console.log(values);
             return false}} >
             <ModelConfigForm formRef={formRef}/>
+=======
+            title='模型配置'
+            onFinish={async () => {
+              console.log(formRef.current?.getFieldsValue());
+              return false;
+            }}>
+            <ModelConfigForm formRef={formRef} oldData={oldData} />
+>>>>>>> 7e4081b15a2d35ab885231f35a57adf58d1ddd87
           </StepsForm.StepForm>
           <StepsForm.StepForm
             name='fileConfig'
