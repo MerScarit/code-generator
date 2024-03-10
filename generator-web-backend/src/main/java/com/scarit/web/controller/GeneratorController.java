@@ -298,13 +298,13 @@ public class GeneratorController {
         String tempDirPath = StrUtil.format("{}/.temp/use/{}", projectPath, generateId);
         String zipFilePath = tempDirPath + "/dist.zip";
 
-        if (FileUtil.exist(zipFilePath)) {
+        if (!FileUtil.exist(zipFilePath)) {
             FileUtil.touch(zipFilePath);
         }
 
         try {
             cosManager.download(distPath, zipFilePath);
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "生成器下载失败");
         }
         // 解压压缩包，得到脚本文件
