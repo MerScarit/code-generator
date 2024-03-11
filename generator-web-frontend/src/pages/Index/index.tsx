@@ -1,11 +1,9 @@
 import { listGeneratorVoByPageUsingPost } from '@/services/backend/generatorController';
-import { UserAddOutlined, UserOutlined } from '@ant-design/icons';
-import { PageContainer, ProFormSelect, ProFormText, QueryFilter, DefaultFooter } from '@ant-design/pro-components';
+import { UserOutlined } from '@ant-design/icons';
+import { PageContainer, ProFormSelect, ProFormText, QueryFilter } from '@ant-design/pro-components';
 import { Avatar, Card, Flex, Image, Input, List, message, Tabs, Tag, Typography } from 'antd';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
-import FileUploader from '@/components/FileUploader';
-import PictureUploader from '@/components/PictureUploader';
 import { Link } from '@@/exports';
 
 /**

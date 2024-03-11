@@ -287,7 +287,7 @@ public class GeneratorController {
         }
 
         // 生成器的存储路径
-        String distPath = FileConstant.COS_HOST+generator.getDistPath();
+        String distPath = generator.getDistPath();
         if (distPath == null) {
             throw new BusinessException(ErrorCode.NOT_FOUND_ERROR, "产物包不存在");
         }
@@ -318,7 +318,7 @@ public class GeneratorController {
         // 执行脚本
         // 先找到脚本文件的位置
         File scriptFile = FileUtil.loopFiles(unZipDistDir, 2, null)
-                .stream().filter(file -> file.isFile() && "generator".equals(file.getName()))
+                .stream().filter(file -> file.isFile() && "generator.bat".equals(file.getName()))
                 .findFirst()
                 .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_ERROR, "脚本文件不存在"));
 

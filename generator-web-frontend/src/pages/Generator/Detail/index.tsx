@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from '@@/exports';
 import { downloadGeneratorByIdUsingGet, getGeneratorVoByIdUsingGet } from '@/services/backend/generatorController';
-import { COS_HOST } from '@/constants';
 import { Button, Card, Col, Image, message, Row, Space, Tabs, Tag, Typography } from 'antd';
 import { PageContainer } from '@ant-design/pro-components';
 import moment from 'moment';
-import { downloadFileUsingGet, testDownloadFileUsingGet } from '@/services/backend/fileController';
 import { saveAs } from 'file-saver';
 import { useModel } from '@@/plugin-model';
 import { DownloadOutlined, EditOutlined } from '@ant-design/icons';

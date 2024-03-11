@@ -3,7 +3,7 @@
     "description": "Spring Boot 模板项目生成器",
     "enableGitVersionControl": false,
     "fileConfig": {
-        "sourceRootPath": "F:/code/code-generator/generator-demo-projects/acm-template-pro",
+        "sourceRootPath": "F:/code/code-generator/generator-demo-projects/springboot-init",
         "files": [
             {
                 "groupKey": "post",

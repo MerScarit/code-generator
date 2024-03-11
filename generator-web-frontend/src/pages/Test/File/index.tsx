@@ -1,6 +1,6 @@
 import { downloadFileUsingGet, testUploadFileUsingPost } from '@/services/backend/fileController';
 import { InboxOutlined } from '@ant-design/icons';
-import { Divider, Button, Card, Flex, Image, Input, List, message, Tabs, Tag, Typography,Upload, UploadProps } from 'antd';
+import { Button, Card, Divider, Flex, message, Upload, UploadProps } from 'antd';
 
 import React, { useState } from 'react';
 import { saveAs } from 'file-saver';
@@ -61,7 +61,7 @@ const TestFilePage: React.FC = () => {
         <Divider></Divider>
         <Button
           onClick={async () => {
-            const blob = await testDownloadFileUsingGet(
+            const blob = await downloadFileUsingGet(
               {
                 filepath: value,
               }, {
