@@ -1,14 +1,16 @@
-import { Button, Card, Form, FormListFieldData, Input, Space } from 'antd';
+import React from 'react';
 import { CloseOutlined } from '@ant-design/icons';
-import ModelConfig from '@/pages/Generator/Detail/components/ModelConfig';
+import { Button, Card, Form, FormListFieldData, Input, Space, Typography } from 'antd';
 
-interface Props{
+interface Props {
   formRef: any;
-  oldData?: any;
+  oldData: any;
 }
 
-export default (props:Props) => {
+export default (props: Props) => {
+  const [form] = Form.useForm();
   const { formRef, oldData } = props;
+
 
   /**
    * 单个字段表单视图
@@ -33,95 +35,96 @@ export default (props:Props) => {
           <Input />
         </Form.Item>
         {remove && (
-          <Button type='primary' danger onClick={() => remove(field.name)}>
+          <Button type='text' danger onClick={() => remove(field.name)}>
             删除
           </Button>
-        )
-        }
+        )}
+        <Button type='primary' danger onClick={() => remove(field.name)}>
+          删除
+        </Button>
       </Space>
     );
   };
 
-
   return (
     <Form.List name={['modelConfig', 'models']}>
-      {(fields, { add, remove }) => {
-        return (
-          <div style={{ display: 'flex', rowGap: 16, flexDirection: 'column' }}>
-            {fields.map((field) => {
-              const modelConfig = formRef?.current?.getFieldValue()?.modelConfig ?? oldData.modelConfig;
-              const groupKey = modelConfig.models?.[field.name]?.groupKey;
-              return (
-                < Card
-                  size='small'
-                  title={groupKey ? '分组字段' : '无分组字段'}
-                  key={field.key}
-                  extra={
-                    <CloseOutlined
-                      onClick={() => {
-                        remove(field.name);
-                      }}
-                    />
-                  }
-                >
-                  {groupKey ?
-                    (
-                      <Space>
-                        <Form.Item label='分组Key' name={[field.name, 'groupKey']}>
-                          <Input />
-                        </Form.Item>
-                        <Form.Item label='分组名称' name={[field.name, 'grourpName']}>
-                          <Input />
-                        </Form.Item>
-                        <Form.Item label='类型' name={[field.name, 'type']}>
-                          <Input />
-                        </Form.Item>
-                        <Form.Item label='条件' name={[field.name, 'condition']}>
-                          <Input />
-                        </Form.Item>
-                      </Space>
-                    ) : (
-                      /*引入单表单字段列表试图*/
-                      singleFieldFormView(field, remove)
-                    )};
+      {(fields, { add, remove }) => (
+        <div style={{ display: 'flex', rowGap: 16, flexDirection: 'column' }}>
+          {fields.map((field) => {
+            const modelConfig = formRef?.current?.getFieldsValue()?.modelConfig ?? oldData.modelConfig;
+            const groupKey = modelConfig.models?.[field.name]?.groupKey;
 
-
-                  {/* Nest Form.List */}
-                  {groupKey && (
-                    <Form.Item label='subList'>
-                      <Form.List name={[field.name, 'models']}>
-                        {(subFields, subOpt) => (
-                          <div style={{ display: 'flex', flexDirection: 'column', rowGap: 16 }}>
-                            {subFields.map((subField) => (
-                              singleFieldFormView(subField, subOpt.remove)
-                            ))}
-                            <Button type='dashed' onClick={() => subOpt.add()} block>
-                              添加组内字段
-                            </Button>
-                          </div>
-                        )}
-                      </Form.List>
+            return (
+              <Card
+                size='small'
+                title={groupKey ? '分组' : '无分组字段'}
+                key={field.key}
+                extra={
+                  <CloseOutlined
+                    onClick={() => {
+                      remove(field.name);
+                    }}
+                  />
+                }
+              >
+                {groupKey ? (
+                  <Space>
+                    <Form.Item label='分组Key' name={[field.name, 'groupKey']}>
+                      <Input />
                     </Form.Item>
-                  )}
-                </Card>
-              );
+                    <Form.Item label='分组名称' name={[field.name, 'groupName']}>
+                      <Input />
+                    </Form.Item>
+                    <Form.Item label='类型' name={[field.name, 'type']}>
+                      <Input />
+                    </Form.Item>
+                    <Form.Item label='条件' name={[field.name, 'condition']}>
+                      <Input />
+                    </Form.Item>
+                  </Space>
+                ) : (
+                  singleFieldFormView(field, remove)
+                )
+                }
 
-            })}
+                {/* 组内字段 */}
+                {groupKey && (
+                  <Form.Item label='组内字段'>
+                    <Form.List name={[field.name, 'models']}>
+                      {(subFields, subOpt) => (
+                        <div style={{ display: 'flex', flexDirection: 'column', rowGap: 16 }}>
+                          {subFields.map((subField) => (
+                            singleFieldFormView(subField, subOpt.remove)
+                          ))}
+                          <Button type='dashed' onClick={() => subOpt.add()}>
+                            添加组内字段
+                          </Button>
+                        </div>
+                      )}
+                    </Form.List>
+                  </Form.Item>
+                )}
+              </Card>
+            );
+          })}
 
-            <Button type='dashed' onClick={() => add()}>
-              添加单个字段
-            </Button>
-            <Button type='dashed' onClick={() => add(
-              {
-                groupKey: '分组Key',
-                groupName: '分组名称',
-              },
-            )}>
-              添加分组字段
-            </Button>
-          </div>
-        );
-      }}
+          <Button type='dashed' onClick={() => add()} block>
+            添加字段
+          </Button>
+          <Button type='dashed' onClick={() => add({
+              groupName: '分组',
+              groupKey: 'group',
+            },
+          )}>
+            添加分组
+          </Button>
+
+          <div style={{ marginBottom: 16 }} />
+        </div>
+      )
+      }
     </Form.List>
   );
 };
+
+
