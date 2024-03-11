@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from '@@/exports';
-import { getGeneratorVoByIdUsingGet } from '@/services/backend/generatorController';
+import { downloadGeneratorByIdUsingGet, getGeneratorVoByIdUsingGet } from '@/services/backend/generatorController';
 import { COS_HOST } from '@/constants';
 import { Button, Card, Col, Image, message, Row, Space, Tabs, Tag, Typography } from 'antd';
 import { PageContainer } from '@ant-design/pro-components';
@@ -76,7 +76,7 @@ const GeneratorDetailPage : React.FC = () => {
       <Button
         icon={<DownloadOutlined />}
         onClick={async () => {
-          const blob = await downloadFileUsingGet(
+          const blob = await downloadGeneratorByIdUsingGet(
             {
               id: data.id,
             }, {

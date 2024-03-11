@@ -1,4 +1,4 @@
-import { testDownloadFileUsingGet, testUploadFileUsingPost } from '@/services/backend/fileController';
+import { downloadFileUsingGet, testUploadFileUsingPost } from '@/services/backend/fileController';
 import { InboxOutlined } from '@ant-design/icons';
 import { Divider, Button, Card, Flex, Image, Input, List, message, Tabs, Tag, Typography,Upload, UploadProps } from 'antd';
 
