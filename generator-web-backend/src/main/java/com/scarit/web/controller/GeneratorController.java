@@ -1,6 +1,8 @@
 package com.scarit.web.controller;
 
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.ZipUtil;
 import cn.hutool.json.JSONUtil;
@@ -8,7 +10,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qcloud.cos.model.COSObject;
 import com.qcloud.cos.model.COSObjectInputStream;
 import com.qcloud.cos.utils.IOUtils;
+import com.scarit.maker.generator.ZipGenerator;
 import com.scarit.maker.meta.Meta;
+import com.scarit.maker.meta.MetaValidator;
 import com.scarit.web.annotation.AuthCheck;
 import com.scarit.web.common.BaseResponse;
 import com.scarit.web.common.DeleteRequest;
@@ -24,6 +28,7 @@ import com.scarit.web.model.entity.User;
 import com.scarit.web.model.vo.GeneratorVO;
 import com.scarit.web.service.GeneratorService;
 import com.scarit.web.service.UserService;
+import freemarker.template.TemplateException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +38,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.List;
@@ -437,6 +443,70 @@ public class GeneratorController {
      */
     @PostMapping("/make")
     public void makeGenerator(@RequestBody GeneratorMakeRequest generatorMakeRequest, HttpServletResponse response, HttpServletRequest request) throws IOException {
-    }
 
+        // 需要用户登录
+        User loginUser = userService.getLoginUser(request);
+        
+        // 1.读取用户输入的参数
+        String zipFilePath = generatorMakeRequest.getZipFilePath();
+        if (StrUtil.isBlank(zipFilePath)) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR, "压缩包不存在");
+        }
+        Meta meta = generatorMakeRequest.getMeta();
+        
+        // 2.创建独立的工作空间，下载压缩包到本地
+        String projectPath = System.getProperty("user.dir");
+        // 创建随机id，防止冲突
+        String id = IdUtil.getSnowflake() + RandomUtil.randomString(6);
+        String tempDirPath = StrUtil.format("{}/.temp/make/{}", projectPath, id);
+        String localZipFilePath = tempDirPath  + "/project.zip" ;
+
+        if (!FileUtil.exist(localZipFilePath)) {
+            FileUtil.touch(localZipFilePath);
+        }
+        // 下载文件
+        try {
+            cosManager.download(zipFilePath, localZipFilePath);
+        } catch (Exception e) {
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "生成器下载失败");
+        }
+
+        // 3.解压文件，得到项目模版文件
+        File unzipDistDir = ZipUtil.unzip(localZipFilePath);
+
+        // 4.构造 meta 对象和生成器的输出路径
+        String sourceRootPath = unzipDistDir.getAbsolutePath();
+        meta.getFileConfig().setSourceRootPath(sourceRootPath);
+        // 校验和处理默认值
+        MetaValidator.doValidAndFill(meta);
+        String outputPath = StrUtil.format("{}/generated/{}", tempDirPath, meta.getName());
+        
+
+        // 5.调用 make 的方法来制作生成器
+        ZipGenerator generatorTemplate = new ZipGenerator();
+        try {
+            generatorTemplate.doGenerate(meta,outputPath);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "生成器制作失败");
+        } 
+
+        // 6.返回给前端制作好的生成器压缩包
+        String suffix = "-dist.zip";
+        String zipFileName = meta.getName() + suffix;
+        String distZipFilePath = outputPath + suffix;
+        
+        // 下载文件
+        // 设置响应头
+        response.setContentType("application/octet-stram;charset=utf-8");
+        response.setHeader("Content-Disposition", "attachment; filename = " + zipFileName);
+        // 写入响应
+        Files.copy(Paths.get(distZipFilePath), response.getOutputStream());
+        
+        // 7.清理工作空间
+        CompletableFuture.runAsync(() -> {
+            FileUtil.del(tempDirPath);
+        });
     }
+    }
+    
