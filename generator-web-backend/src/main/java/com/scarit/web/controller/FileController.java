@@ -1,7 +1,6 @@
 package com.scarit.web.controller;
 
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.io.IoUtil;
 import com.qcloud.cos.model.COSObject;
 import com.qcloud.cos.model.COSObjectInputStream;
 import com.qcloud.cos.utils.IOUtils;
@@ -9,7 +8,6 @@ import com.scarit.web.annotation.AuthCheck;
 import com.scarit.web.common.BaseResponse;
 import com.scarit.web.common.ErrorCode;
 import com.scarit.web.common.ResultUtils;
-import com.scarit.web.constant.FileConstant;
 import com.scarit.web.constant.UserConstant;
 import com.scarit.web.exception.BusinessException;
 import com.scarit.web.manager.CosManager;
@@ -22,14 +20,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import sun.nio.ch.IOUtil;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.Arrays;
 
 /**

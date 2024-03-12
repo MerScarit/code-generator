@@ -6,7 +6,6 @@ import com.qcloud.cos.model.GetObjectRequest;
 import com.qcloud.cos.model.PutObjectRequest;
 import com.qcloud.cos.model.PutObjectResult;
 import com.qcloud.cos.transfer.Download;
-import com.qcloud.cos.transfer.Transfer;
 import com.qcloud.cos.transfer.TransferManager;
 import com.scarit.web.config.CosClientConfig;
 import org.springframework.stereotype.Component;

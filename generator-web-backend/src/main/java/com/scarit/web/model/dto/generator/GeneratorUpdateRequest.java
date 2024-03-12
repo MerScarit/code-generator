@@ -1,6 +1,6 @@
 package com.scarit.web.model.dto.generator;
 
-import com.scarit.web.meta.Meta;
+import com.scarit.maker.meta.Meta;
 import lombok.Data;
 
 import java.io.Serializable;

@@ -16,6 +16,13 @@ import java.io.IOException;
 import java.nio.file.Paths;
 
 public abstract class GenerateTemplate {
+
+    /**
+     * 生成代码(无参)
+     * @throws TemplateException
+     * @throws IOException
+     * @throws InterruptedException
+     */
     public  void doGenerate() throws TemplateException, IOException, InterruptedException {
 
         Meta meta = MetaManager.getMetaObject();
@@ -23,15 +30,31 @@ public abstract class GenerateTemplate {
         // 0.输出根路径
         String projectPath = System.getProperty("user.dir");
         String outputPath = projectPath + File.separator + "generated" + File.separator + meta.getName();
+
+        doGenerate(meta, outputPath);
+
+    }
+
+    /**
+     * 生成代码(有参)
+     * @param meta
+     * @param outputPath
+     * @throws TemplateException
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public  void doGenerate(Meta meta,String outputPath) throws TemplateException, IOException, InterruptedException {
+
+
         //不存在该outputPath目录则创建目录
         if (FileUtil.exist(outputPath)) {
             FileUtil.mkdir(outputPath);
         }
-        
-        
+
+
         // 1.将源代码模板文件复制进项目
         String sourceCopyDestPath = copySource(meta, outputPath);
-        
+
         // 2.生成代码文件
         generateCode(meta, outputPath);
 
@@ -107,9 +130,10 @@ public abstract class GenerateTemplate {
      * @throws TemplateException
      */
     protected void generateCode(Meta meta, String outputPath) throws IOException, TemplateException {
-        //读取resources路径
-        ClassPathResource classPathResource = new ClassPathResource("");
-        String inputResourcesPath = classPathResource.getAbsolutePath();
+
+        //读取resources路径,因为打包后读取resource资源有变化，在DynamicFileGenerator中使用ClassTemplateLoader读取资源路径
+        // 所以这边不需要添加路径
+        String inputResourcesPath = "";
 
         //Java包基础路径,basePackage在json中包路径分隔是通过“.”,需要转化为“/”
         String outputBasePackage = meta.getBasePackage();

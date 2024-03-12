@@ -1,7 +1,7 @@
 package com.scarit.web.model.vo;
 
 import cn.hutool.json.JSONUtil;
-import com.scarit.web.meta.Meta;
+import com.scarit.maker.meta.Meta;
 import com.scarit.web.model.entity.Generator;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;

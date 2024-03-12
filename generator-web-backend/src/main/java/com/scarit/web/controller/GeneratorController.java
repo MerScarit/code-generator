@@ -8,17 +8,16 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qcloud.cos.model.COSObject;
 import com.qcloud.cos.model.COSObjectInputStream;
 import com.qcloud.cos.utils.IOUtils;
+import com.scarit.maker.meta.Meta;
 import com.scarit.web.annotation.AuthCheck;
 import com.scarit.web.common.BaseResponse;
 import com.scarit.web.common.DeleteRequest;
 import com.scarit.web.common.ErrorCode;
 import com.scarit.web.common.ResultUtils;
-import com.scarit.web.constant.FileConstant;
 import com.scarit.web.constant.UserConstant;
 import com.scarit.web.exception.BusinessException;
 import com.scarit.web.exception.ThrowUtils;
 import com.scarit.web.manager.CosManager;
-import com.scarit.web.meta.Meta;
 import com.scarit.web.model.dto.generator.*;
 import com.scarit.web.model.entity.Generator;
 import com.scarit.web.model.entity.User;
@@ -34,7 +33,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.List;
@@ -429,4 +427,16 @@ public class GeneratorController {
             }
         }
     }
-}
+
+    /**
+     * 制作代码生成器
+     * @param generatorMakeRequest
+     * @param response
+     * @param request
+     * @throws IOException
+     */
+    @PostMapping("/make")
+    public void makeGenerator(@RequestBody GeneratorMakeRequest generatorMakeRequest, HttpServletResponse response, HttpServletRequest request) throws IOException {
+    }
+
+    }

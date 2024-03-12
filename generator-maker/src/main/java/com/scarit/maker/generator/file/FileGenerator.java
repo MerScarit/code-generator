@@ -26,6 +26,8 @@ public class FileGenerator {
         //生成动态文件
         DynamicFileGenterator.doGenerate(dynamicInputPath,dynamicOutputPath,model);
     }
+
+
 }
     
     
