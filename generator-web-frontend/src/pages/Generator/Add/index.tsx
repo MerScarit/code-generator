@@ -221,7 +221,7 @@ const GeneratorAddPage : React.FC = () => {
             <ProFormItem label='产物包' name='distPath'>
               <FileUploader
                 biz='generator_dist'
-                description='请上传生成器文件压缩包+'
+                description='请上传生成器文件压缩包'
               />
               <GeneratorMaker meta={{...basicInfo, ...modelConfig, ...fileConfig}} />
             </ProFormItem>

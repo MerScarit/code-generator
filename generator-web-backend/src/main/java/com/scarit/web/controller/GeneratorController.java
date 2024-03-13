@@ -31,12 +31,14 @@ import com.scarit.web.service.UserService;
 import freemarker.template.TemplateException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.attribute.PosixFilePermission;
@@ -444,15 +446,15 @@ public class GeneratorController {
     @PostMapping("/make")
     public void makeGenerator(@RequestBody GeneratorMakeRequest generatorMakeRequest, HttpServletResponse response, HttpServletRequest request) throws IOException {
 
+        Meta meta = generatorMakeRequest.getMeta();
+        String zipFilePath = generatorMakeRequest.getZipFilePath();
         // 需要用户登录
         User loginUser = userService.getLoginUser(request);
-        
+        log.info("userId = {} 在线制作生成器", loginUser.getId());
         // 1.读取用户输入的参数
-        String zipFilePath = generatorMakeRequest.getZipFilePath();
         if (StrUtil.isBlank(zipFilePath)) {
             throw new BusinessException(ErrorCode.NOT_FOUND_ERROR, "压缩包不存在");
         }
-        Meta meta = generatorMakeRequest.getMeta();
         
         // 2.创建独立的工作空间，下载压缩包到本地
         String projectPath = System.getProperty("user.dir");
@@ -494,19 +496,22 @@ public class GeneratorController {
         // 6.返回给前端制作好的生成器压缩包
         String suffix = "-dist.zip";
         String zipFileName = meta.getName() + suffix;
+        // 生成器压缩包的绝对路径
         String distZipFilePath = outputPath + suffix;
         
-        // 下载文件e
+        // 下载文件
         // 设置响应头
         response.setContentType("application/octet-stream;charset=UTF-8");
-        response.setHeader("Content-Disposition", "attachment; filename = " + zipFileName);
+        response.setHeader("content-disposition", "attachment;filename=" + URLEncoder.encode(zipFileName, "UTF-8"));
+        
         // 写入响应
         Files.copy(Paths.get(distZipFilePath), response.getOutputStream());
+        response.getOutputStream().flush();
         
         // 7.清理工作空间
-        CompletableFuture.runAsync(() -> {
-            FileUtil.del(tempDirPath);
-        });
+//        CompletableFuture.runAsync(() -> {
+//            FileUtil.del(tempDirPath);
+//        });
     }
     }
     

@@ -36,7 +36,8 @@ const FileUploader: React.FC<Props> = (props) => {
     customRequest: async (fileObj: any) => {
       setLoading(true);
       try {
-        const res = await uploadFileUsingPost({
+        const res = await uploadFileUsingPost(
+          {
           biz,
         },
           {},
