@@ -457,7 +457,7 @@ public class GeneratorController {
         // 2.创建独立的工作空间，下载压缩包到本地
         String projectPath = System.getProperty("user.dir");
         // 创建随机id，防止冲突
-        String id = IdUtil.getSnowflake() + RandomUtil.randomString(6);
+        String id = IdUtil.getSnowflakeNextId() + RandomUtil.randomString(6);
         String tempDirPath = StrUtil.format("{}/.temp/make/{}", projectPath, id);
         String localZipFilePath = tempDirPath  + "/project.zip" ;
 
@@ -496,9 +496,9 @@ public class GeneratorController {
         String zipFileName = meta.getName() + suffix;
         String distZipFilePath = outputPath + suffix;
         
-        // 下载文件
+        // 下载文件e
         // 设置响应头
-        response.setContentType("application/octet-stram;charset=utf-8");
+        response.setContentType("application/octet-stream;charset=UTF-8");
         response.setHeader("Content-Disposition", "attachment; filename = " + zipFileName);
         // 写入响应
         Files.copy(Paths.get(distZipFilePath), response.getOutputStream());

@@ -1,6 +1,6 @@
 import React from 'react';
 import { CloseOutlined } from '@ant-design/icons';
-import { Button, Card, Form, FormListFieldData, Input, Space } from 'antd';
+import { Alert, Button, Card, Form, FormListFieldData, Input, Select, Space } from 'antd';
 
 interface Props {
   formRef: any;
@@ -15,6 +15,7 @@ export default (props: Props) => {
   /**
    * 单个字段表单视图
    * @param field
+   * @param groupCondition
    * @param remove
    */
   const singleFieldFormView = (
@@ -22,16 +23,27 @@ export default (props: Props) => {
     remove: (index: number | number[]) => void) => {
     return (
       <Space key={field.key}>
-        <Form.Item label='字段名称' name={[field.name, 'fieldName']}>
+        <Form.Item label='输入路径' name={[field.name, 'inputPath']}>
           <Input />
         </Form.Item>
-        <Form.Item label='字段描述' name={[field.name, 'description']}>
+        <Form.Item label='输出路径' name={[field.name, 'outputPath']}>
           <Input />
         </Form.Item>
         <Form.Item label='类型' name={[field.name, 'type']}>
-          <Input />
+          <Select style={{ minWidth: 80 }}
+                  options={[
+                    {value: 'file',label:'文件'},
+                    {value: 'dir',label:'目录'},
+                  ]} />
         </Form.Item>
-        <Form.Item label='缩写' name={[field.name, 'abbr']}>
+        <Form.Item label='生成类型' name={[field.name, 'generateType']}>
+          <Select style={{ minWidth: 80 }}
+                  options={[
+                    {value: 'static',label:'静态'},
+                    {value: 'dynamic',label:'动态'},
+                  ]} />
+        </Form.Item>
+        <Form.Item label='条件' name={[field.name, 'condition']}>
           <Input />
         </Form.Item>
         {remove && (
@@ -44,17 +56,19 @@ export default (props: Props) => {
   };
 
   return (
-    <Form.List name={['modelConfig', 'models']}>
+    <>
+      <Alert message={'如果不需要使用在线制作功能，可不填写文件配置'} type={'warning'} closable={true} />
+    <Form.List name={['fileConfig', 'files']}>
       {(fields, { add, remove }) => (
         <div style={{ display: 'flex', rowGap: 16, flexDirection: 'column' }}>
           {fields.map((field) => {
-            const modelConfig = formRef?.current?.getFieldsValue()?.fileConfig ?? oldData.modelConfig;
-            const groupKey = modelConfig.models?.[field.name]?.groupKey;
+            const fileConfig = formRef?.current?.getFieldsValue()?.fileConfig ?? oldData.fileConfig;
+            const groupKey = fileConfig.files?.[field.name]?.groupKey;
 
             return (
               <Card
                 size='small'
-                title={groupKey ? '分组' : '无分组字段'}
+                title={groupKey ? '分组文件' : '无分组文件'}
                 key={field.key}
                 extra={
                   <CloseOutlined
@@ -72,29 +86,26 @@ export default (props: Props) => {
                     <Form.Item label='分组名称' name={[field.name, 'groupName']}>
                       <Input />
                     </Form.Item>
-                    <Form.Item label='类型' name={[field.name, 'type']}>
-                      <Input />
-                    </Form.Item>
                     <Form.Item label='条件' name={[field.name, 'condition']}>
                       <Input />
                     </Form.Item>
                   </Space>
                 ) : (
-                  singleFieldFormView(field, remove)
+                  singleFieldFormView(field,remove)
                 )
                 }
 
-                {/* 组内字段 */}
+                {/* 组内文件 */}
                 {groupKey && (
-                  <Form.Item label='组内字段'>
-                    <Form.List name={[field.name, 'models']}>
+                  <Form.Item label='组内文件'>
+                    <Form.List name={[field.name, 'files']}>
                       {(subFields, subOpt) => (
                         <div style={{ display: 'flex', flexDirection: 'column', rowGap: 16 }}>
                           {subFields.map((subField) => (
                             singleFieldFormView(subField, subOpt.remove)
                           ))}
                           <Button type='dashed' onClick={() => subOpt.add()}>
-                            添加组内字段
+                            添加组内文件
                           </Button>
                         </div>
                       )}
@@ -106,7 +117,7 @@ export default (props: Props) => {
           })}
 
           <Button type='dashed' onClick={() => add()} block>
-            添加字段
+            添加文件
           </Button>
           <Button type='dashed' onClick={() => add({
               groupName: '分组',
@@ -121,6 +132,7 @@ export default (props: Props) => {
       )
       }
     </Form.List>
+    </>
   );
 };
 
