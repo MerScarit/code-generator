@@ -508,10 +508,64 @@ public class GeneratorController {
         Files.copy(Paths.get(distZipFilePath), response.getOutputStream());
         response.getOutputStream().flush();
         
-//        // 7.清理工作空间
-//        CompletableFuture.runAsync(() -> {
-//            FileUtil.del(tempDirPath);
-//        });
+        // 7.清理工作空间
+        CompletableFuture.runAsync(() -> {
+            FileUtil.del(tempDirPath);
+        });
     }
+
+    /**
+     * 文件缓存下载
+     *
+     * @param generatorCacheRequest
+     * @throws IOException
+     */
+    @PostMapping("/cache")
+    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
+    public void cacheGenerator(@RequestBody GeneratorCacheRequest generatorCacheRequest) throws IOException {
+        Long id = generatorCacheRequest.getId();
+        if (StrUtil.isBlankIfStr(generatorCacheRequest) || id < 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "生成器参数错误");
+
+        }
+
+        Generator generator = generatorService.getById(id);
+        
+        if (generator == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR, "该生成器不存在");
+        }
+        // 获取生成器下载地址
+        String distPath = generator.getDistPath();
+        if (StrUtil.isBlank(distPath)) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR, "产物包不存在");
+        }
+
+        // 获取该生成器的缓存空间
+        String zipFilePath = getCachePath(id, distPath);
+        
+    
+        // 下载文件
+        try {
+            cosManager.download(distPath, zipFilePath);
+        } catch (Exception e) {
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "生成器下载失败");
+        }
     }
+
+    /**
+     * 获取生成器缓存地址
+     * @param id
+     * @param distPath
+     * @return
+     */
+    private String getCachePath(Long id, String distPath) {
+
+        // .创建独立的工作空间，下载压缩包到本地
+        String projectPath = System.getProperty("user.dir");
+        String tempDirPath = StrUtil.format("{}/.temp/cache/{}", projectPath, id);
+        String zipFilePath = StrUtil.format("{}/{}}", tempDirPath, distPath);
+        return zipFilePath;
+    }
+}
+    
     
