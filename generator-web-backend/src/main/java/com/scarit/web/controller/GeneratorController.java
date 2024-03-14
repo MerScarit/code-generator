@@ -28,10 +28,8 @@ import com.scarit.web.model.entity.User;
 import com.scarit.web.model.vo.GeneratorVO;
 import com.scarit.web.service.GeneratorService;
 import com.scarit.web.service.UserService;
-import freemarker.template.TemplateException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -146,6 +144,8 @@ public class GeneratorController {
         generator.setFileConfig(JSONUtil.toJsonStr(fileConfig));
         Meta.ModelConfig modelConfig = generatorUpdateRequest.getModelConfig();
         generator.setModelConfig(JSONUtil.toJsonStr(modelConfig));
+        String distPath = generator.getDistPath();
+        generator.setDistPath(distPath);
 
         // 参数校验
         generatorService.validGenerator(generator, false);
@@ -372,7 +372,7 @@ public class GeneratorController {
 
         // 下载文件
         // 设置响应头
-        response.setHeader("Content-Disposition", "attachmet;filename=" + resultFile.getName());
+        response.setHeader("Content-Disposition", "attachment;filename=" + resultFile.getName());
         response.setContentType("application/octet-stream;charset=UTF-8");
 
         // 写入响应
@@ -502,13 +502,13 @@ public class GeneratorController {
         // 下载文件
         // 设置响应头
         response.setContentType("application/octet-stream;charset=UTF-8");
-        response.setHeader("content-disposition", "attachment;filename=" + URLEncoder.encode(zipFileName, "UTF-8"));
+        response.setHeader("Content-isposition", "attachment;filename=" + URLEncoder.encode(zipFileName, "UTF-8"));
         
         // 写入响应
         Files.copy(Paths.get(distZipFilePath), response.getOutputStream());
         response.getOutputStream().flush();
         
-        // 7.清理工作空间
+//        // 7.清理工作空间
 //        CompletableFuture.runAsync(() -> {
 //            FileUtil.del(tempDirPath);
 //        });

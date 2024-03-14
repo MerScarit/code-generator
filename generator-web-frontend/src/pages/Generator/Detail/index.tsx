@@ -90,7 +90,7 @@ const GeneratorDetailPage : React.FC = () => {
     );
 
   const updateButton = my && (
-    <Link to={`/generator/update?id=${data.id}`}>
+    <Link to={`/generator/update?id=${data.id}`} >
       <Button icon={<EditOutlined />}>编辑</Button>
     </Link>
   );
@@ -115,7 +115,9 @@ const GeneratorDetailPage : React.FC = () => {
             <Typography.Paragraph>作者：{data.author}</Typography.Paragraph>
             <div style={{ marginBottom: 24 }} />
             <Space size="middle">
+              <Link to={`/generator/use/${data.id}`} >
               <Button type="primary">立即使用</Button>
+              </Link>
               {downloadButton}
               {updateButton}
             </Space>

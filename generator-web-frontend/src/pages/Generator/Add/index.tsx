@@ -45,17 +45,17 @@ const GeneratorAddPage : React.FC = () => {
    * @param values
    */
   const loadData = async () => {
-    // if (!id) {
-    //   return;
-    // }
+    if (!id) {
+      return;
+    }
     try {
       const res = await getGeneratorVoByIdUsingGet({
         id,
       });
-
       // 处理文件路径
       if (res.data) {
         const { distPath } = res.data ?? {};
+
         if (distPath) {
           //@ts-ignore
           res.data.distPath = [
@@ -144,7 +144,6 @@ const GeneratorAddPage : React.FC = () => {
     } else {
       await doAdd(values);
     }
-    console.log("values"+values.distPath);
 
 
   };
@@ -152,7 +151,8 @@ const GeneratorAddPage : React.FC = () => {
   return (
     <ProCard>
       {/*// 创建或者已加载要更新的数据时，才渲染表单，并顺利填充默认值*/}
-      {(!id || oldData) && (
+      {
+        (!id || oldData) && (
         <StepsForm<API.GeneratorAddRequest | API.GeneratorEditRequest> formRef={formRef} onFinish={doSubmit} formProps={{ initialValues: oldData }}>
           <StepsForm.StepForm
             name='base'
@@ -222,12 +222,15 @@ const GeneratorAddPage : React.FC = () => {
               <FileUploader
                 biz='generator_dist'
                 description='请上传生成器文件压缩包'
+                value = {oldData?.distPath ?? []}
               />
+              <div style={{ marginBottom: 12}} />
               <GeneratorMaker meta={{...basicInfo, ...modelConfig, ...fileConfig}} />
             </ProFormItem>
           </StepsForm.StepForm>
         </StepsForm>
-      )}
+      )
+      }
     </ProCard>
   );
 };

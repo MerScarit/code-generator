@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 /**
  * ACM 输入模板（多数之和）
- * Author: {mainTemplate.author}
+ * Author: ${mainTemplate.author}
  */
 <#if loop>
 public class MainTemplate {

@@ -3,7 +3,7 @@ import { makeGeneratorUsingPost } from '@/services/backend/generatorController';
 import { ProFormInstance } from '@ant-design/pro-components';
 import { ProForm, ProFormItem } from '@ant-design/pro-form';
 import { Collapse, message } from 'antd';
-import FileSaver, { saveAs } from 'file-saver';
+import { saveAs } from 'file-saver';
 import { useRef } from 'react';
 
 interface Props {
@@ -19,7 +19,7 @@ export default (props: Props) => {
    * @param values
    */
   const doSubmit = async (values: API.GeneratorMakeRequest) => {
-    // 校验
+    // 数据转换
     if (!meta.name) {
       message.error('请填写名称');
       return;
@@ -47,7 +47,7 @@ export default (props: Props) => {
         },
       );
       // 使用 file-saver 来保存文件
-      FileSaver.saveAs(blob, meta.name + '-dist.zip');
+      saveAs(blob, meta.name + '.zip');
     } catch (error: any) {
       message.error('制作失败，' + error.message);
     }
@@ -67,7 +67,7 @@ export default (props: Props) => {
           hidden: true,
         },
       }}
-      onFinish={ doSubmit }
+      onFinish={doSubmit}
     >
       <ProFormItem label="模板文件" name="zipFilePath">
         <FileUploader

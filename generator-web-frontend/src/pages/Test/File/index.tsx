@@ -28,7 +28,6 @@ const TestFilePage: React.FC = () => {
         const res = await testUploadFileUsingPost({}, fileObj.file);
         fileObj.onSuccess(res.data);
         setValue(res.data);
-        console.log("res.data"+res.data);
       } catch (e: any) {
         message.error('上传失败' + e.message);
         fileObj.onError(e);
@@ -76,6 +75,7 @@ const TestFilePage: React.FC = () => {
         </Button>
       </Card>
     </Flex>
+
   );
 };
 

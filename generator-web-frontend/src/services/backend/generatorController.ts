@@ -114,7 +114,6 @@ export async function makeGeneratorUsingPost(
 ) {
   return request<any>('/api/generator/make', {
     method: 'POST',
-    responseType: 'blob',
     headers: {
       'Content-Type': 'application/json',
     },

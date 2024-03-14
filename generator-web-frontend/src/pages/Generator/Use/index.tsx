@@ -26,9 +26,6 @@ import moment from 'moment';
 import { saveAs } from 'file-saver';
 import { useModel } from '@@/plugin-model';
 import { DownloadOutlined, EditOutlined } from '@ant-design/icons';
-import FileConfig from '@/pages/Generator/Detail/components/FileConfig';
-import ModelConfig from '@/pages/Generator/Detail/components/ModelConfig';
-import AuthorInfo from '@/pages/Generator/Detail/components/AuthorInfo';
 
 const GeneratorUsePage : React.FC = () => {
   const { id } = useParams();
@@ -37,8 +34,7 @@ const GeneratorUsePage : React.FC = () => {
   const [ downloading, setDownloading ] = useState<boolean>(false);
   const { initialState } = useModel('@@initialState');
   const { currentUser } = initialState ?? {};
-  const { form } = Form.useForm();
-
+  const [form] = Form.useForm();
   const models = data?.modelConfig?.models ?? [];
 
   /**
@@ -72,7 +68,7 @@ const GeneratorUsePage : React.FC = () => {
 
 
   /**
-   * 生成代码按钮
+   * 下载代码按钮
    */
   const downloadButton = data.distPath && currentUser &&
     (
@@ -132,7 +128,7 @@ const GeneratorUsePage : React.FC = () => {
                             children: model.models?.map((subModel, index) => {
                               return (
                                 <Form.Item key={index} name={[model.groupKey, subModel.fieldName]}
-                                           label={subModel.name}>
+                                           label={subModel.fieldName}>
 
                                   <Input placeholder={subModel.description} />
                                 </Form.Item>
