@@ -17,7 +17,7 @@ import { Link } from '@@/exports';
  */
 const DEFAULT_PAGE_PARAMS: PageRequest = {
   current: 1,
-  pageSize: 4,
+  pageSize: 12,
   sortField: 'createTime',
   sortOrder: 'descent',
 };

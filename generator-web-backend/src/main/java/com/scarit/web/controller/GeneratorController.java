@@ -6,6 +6,7 @@ import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.ZipUtil;
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qcloud.cos.model.COSObject;
 import com.qcloud.cos.model.COSObjectInputStream;
@@ -192,6 +193,27 @@ public class GeneratorController {
     }
 
     /**
+     * 分页获取列表,快速（封装类）
+     *
+     * @param generatorQueryRequest
+     * @param request
+     * @return
+     */
+    @PostMapping("/list/page/vo/fast")
+    public BaseResponse<Page<GeneratorVO>> listGeneratorFastVOByPage(@RequestBody GeneratorQueryRequest generatorQueryRequest,
+                                                                 HttpServletRequest request) {
+        long current = generatorQueryRequest.getCurrent();
+        long size = generatorQueryRequest.getPageSize();
+        // 限制爬虫
+        ThrowUtils.throwIf(size > 20, ErrorCode.PARAMS_ERROR);
+        QueryWrapper<Generator> queryWrapper = generatorService.getQueryWrapper(generatorQueryRequest);
+        queryWrapper.select("id", "name", "description", "tags", "picture", "status", "userId", "createTime", "updateTime");
+        Page<Generator> generatorPage = generatorService.page(new Page<>(current, size), queryWrapper);
+        Page<GeneratorVO> generatorVOPage = generatorService.getGeneratorVOPage(generatorPage, request);
+
+        return ResultUtils.success(generatorVOPage);
+    }
+    /**
      * 分页获取列表（封装类）
      *
      * @param generatorQueryRequest
@@ -205,10 +227,13 @@ public class GeneratorController {
         long size = generatorQueryRequest.getPageSize();
         // 限制爬虫
         ThrowUtils.throwIf(size > 20, ErrorCode.PARAMS_ERROR);
-        Page<Generator> GeneratorPage = generatorService.page(new Page<>(current, size),
-                generatorService.getQueryWrapper(generatorQueryRequest));
-        return ResultUtils.success(generatorService.getGeneratorVOPage(GeneratorPage, request));
+        QueryWrapper<Generator> queryWrapper = generatorService.getQueryWrapper(generatorQueryRequest);
+        Page<Generator> generatorPage = generatorService.page(new Page<>(current, size), queryWrapper);
+        Page<GeneratorVO> generatorVOPage = generatorService.getGeneratorVOPage(generatorPage, request);
+
+        return ResultUtils.success(generatorVOPage);
     }
+
 
     /**
      * 分页获取当前用户创建的资源列表
@@ -412,6 +437,18 @@ public class GeneratorController {
         // 追踪事件
         log.info("用户：{} 下载了{}", loginUser, filepath);
 
+        // 设置响应头
+        response.setHeader("Content-Disposition", "attachment; filename=" + filepath);
+        response.setContentType("application/octet-stream;charset=UTF-8");
+
+        // 优先从缓存读取
+        String zipFilePath = getCacheFilePath(id, filepath);
+        if (FileUtil.exist(zipFilePath)) {
+            Files.copy(Paths.get(zipFilePath), response.getOutputStream());
+            return;
+        }
+
+
         COSObjectInputStream cosObjectInput = null;
 
         try {
@@ -420,9 +457,7 @@ public class GeneratorController {
 
             // 处理下载到的流
             byte[] bytes = IOUtils.toByteArray(cosObjectInput);
-            // 设置响应头
-            response.setHeader("Content-Disposition", "attachment; filename=" + filepath);
-            response.setContentType("application/octet-stream;charset=UTF-8");
+
             // 写入响应
             response.getOutputStream().write(bytes);
             response.getOutputStream().flush();
@@ -522,7 +557,7 @@ public class GeneratorController {
      */
     @PostMapping("/cache")
     @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
-    public void cacheGenerator(@RequestBody GeneratorCacheRequest generatorCacheRequest) throws IOException {
+    public BaseResponse<String> cacheGenerator(@RequestBody GeneratorCacheRequest generatorCacheRequest) throws IOException {
         Long id = generatorCacheRequest.getId();
         if (StrUtil.isBlankIfStr(generatorCacheRequest) || id < 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "生成器参数错误");
@@ -530,7 +565,7 @@ public class GeneratorController {
         }
 
         Generator generator = generatorService.getById(id);
-        
+
         if (generator == null) {
             throw new BusinessException(ErrorCode.NOT_FOUND_ERROR, "该生成器不存在");
         }
@@ -541,16 +576,18 @@ public class GeneratorController {
         }
 
         // 获取该生成器的缓存空间
-        String zipFilePath = getCachePath(id, distPath);
-        
-    
+        String zipFilePath = getCacheFilePath(id, distPath);
+
+
         // 下载文件
         try {
             cosManager.download(distPath, zipFilePath);
         } catch (Exception e) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "生成器下载失败");
         }
+        return ResultUtils.success(StrUtil.format("id为 {} 的生成器的缓存成功，缓存路径是{} ", id, zipFilePath));
     }
+
 
     /**
      * 获取生成器缓存地址
@@ -558,12 +595,12 @@ public class GeneratorController {
      * @param distPath
      * @return
      */
-    private String getCachePath(Long id, String distPath) {
+    private String getCacheFilePath(Long id, String distPath) {
 
-        // .创建独立的工作空间，下载压缩包到本地
-        String projectPath = System.getProperty("user.dir");
+        // 创建独立的工作空间，下载压缩包到本地
+        String projectPath = System.getProperty("user.dir").replace("\\", "/");
         String tempDirPath = StrUtil.format("{}/.temp/cache/{}", projectPath, id);
-        String zipFilePath = StrUtil.format("{}/{}}", tempDirPath, distPath);
+        String zipFilePath = StrUtil.format("{}/{}", tempDirPath, distPath);
         return zipFilePath;
     }
 }
