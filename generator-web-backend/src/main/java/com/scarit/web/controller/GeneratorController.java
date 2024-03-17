@@ -1,5 +1,6 @@
 package com.scarit.web.controller;
 
+import cn.hutool.core.date.StopWatch;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.RandomUtil;
@@ -199,41 +200,23 @@ public class GeneratorController {
      * @param request
      * @return
      */
-    @PostMapping("/list/page/vo/fast")
+    @PostMapping("/list/page/vo")
     public BaseResponse<Page<GeneratorVO>> listGeneratorFastVOByPage(@RequestBody GeneratorQueryRequest generatorQueryRequest,
                                                                  HttpServletRequest request) {
         long current = generatorQueryRequest.getCurrent();
         long size = generatorQueryRequest.getPageSize();
         // 限制爬虫
         ThrowUtils.throwIf(size > 20, ErrorCode.PARAMS_ERROR);
+        
         QueryWrapper<Generator> queryWrapper = generatorService.getQueryWrapper(generatorQueryRequest);
         queryWrapper.select("id", "name", "description", "tags", "picture", "status", "userId", "createTime", "updateTime");
         Page<Generator> generatorPage = generatorService.page(new Page<>(current, size), queryWrapper);
+        
         Page<GeneratorVO> generatorVOPage = generatorService.getGeneratorVOPage(generatorPage, request);
-
+      
         return ResultUtils.success(generatorVOPage);
     }
-    /**
-     * 分页获取列表（封装类）
-     *
-     * @param generatorQueryRequest
-     * @param request
-     * @return
-     */
-    @PostMapping("/list/page/vo")
-    public BaseResponse<Page<GeneratorVO>> listGeneratorVOByPage(@RequestBody GeneratorQueryRequest generatorQueryRequest,
-                                                                 HttpServletRequest request) {
-        long current = generatorQueryRequest.getCurrent();
-        long size = generatorQueryRequest.getPageSize();
-        // 限制爬虫
-        ThrowUtils.throwIf(size > 20, ErrorCode.PARAMS_ERROR);
-        QueryWrapper<Generator> queryWrapper = generatorService.getQueryWrapper(generatorQueryRequest);
-        Page<Generator> generatorPage = generatorService.page(new Page<>(current, size), queryWrapper);
-        Page<GeneratorVO> generatorVOPage = generatorService.getGeneratorVOPage(generatorPage, request);
-
-        return ResultUtils.success(generatorVOPage);
-    }
-
+   
 
     /**
      * 分页获取当前用户创建的资源列表
