@@ -8,7 +8,7 @@ import java.util.List;
 
 @NoArgsConstructor
 @Data
-public class Meta {
+public class Meta implements Serializable{
 
 
     private String name;
@@ -23,7 +23,7 @@ public class Meta {
 
     @NoArgsConstructor
     @Data
-    public static class FileConfig  {
+    public static class FileConfig implements Serializable {
         
         private String inputRootPath;
         private String outputRootPath;
@@ -32,7 +32,7 @@ public class Meta {
         private List<FileInfo> files;
 
         @Data
-        public static class FileInfo  {
+        public static class FileInfo implements Serializable {
 
             private String groupKey;
             private String groupName;
