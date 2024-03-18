@@ -2,7 +2,6 @@ package com.scarit.web.controller;
 
 import cn.hutool.core.codec.Base64Encoder;
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.lang.TypeReference;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
@@ -37,6 +36,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -245,7 +245,6 @@ public class GeneratorController {
 
         return ResultUtils.success(generatorVOPage);
     }
-
 
     /**
      * 分页获取当前用户创建的资源列表
@@ -622,7 +621,7 @@ public class GeneratorController {
      * @param generatorQueryRequest
      * @return
      */
-    private static String getPageCacheKey(GeneratorQueryRequest generatorQueryRequest) {
+    public static String getPageCacheKey(GeneratorQueryRequest generatorQueryRequest) {
 
         String jsonStr = JSONUtil.toJsonStr(generatorQueryRequest);
         String base64 = Base64Encoder.encode(jsonStr);
