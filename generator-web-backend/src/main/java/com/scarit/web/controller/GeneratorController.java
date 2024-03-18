@@ -1,6 +1,10 @@
 package com.scarit.web.controller;
 
+<<<<<<< HEAD
+import cn.hutool.core.date.StopWatch;
+=======
 import cn.hutool.core.codec.Base64Encoder;
+>>>>>>> 56135e18a72b2c12b68050a6723d759f9569048a
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.RandomUtil;
@@ -232,12 +236,20 @@ public class GeneratorController {
 
         // 限制爬虫
         ThrowUtils.throwIf(size > 20, ErrorCode.PARAMS_ERROR);
+        
         QueryWrapper<Generator> queryWrapper = generatorService.getQueryWrapper(generatorQueryRequest);
 
 
         queryWrapper.select("id", "name", "description", "tags", "picture", "status", "userId", "createTime", "updateTime");
         Page<Generator> generatorPage = generatorService.page(new Page<>(current, size), queryWrapper);
+        
         Page<GeneratorVO> generatorVOPage = generatorService.getGeneratorVOPage(generatorPage, request);
+<<<<<<< HEAD
+      
+        return ResultUtils.success(generatorVOPage);
+    }
+   
+=======
 
         // 写入多级缓存
         cacheManager.put(pageCacheKey, generatorVOPage);
@@ -246,6 +258,11 @@ public class GeneratorController {
         return ResultUtils.success(generatorVOPage);
     }
 
+<<<<<<< HEAD
+=======
+>>>>>>> 56135e18a72b2c12b68050a6723d759f9569048a
+
+>>>>>>> origin/main
     /**
      * 分页获取当前用户创建的资源列表
      *

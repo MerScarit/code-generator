@@ -20,8 +20,10 @@ class GeneratorServiceImplTest {
     @Test
     public void testInsert() {
         Generator generator = generatorService.getById(1);
-        for (int i = 0; i < 100000; i++) {
+        
+        for (int i = 0; i < 65000; i++) {
             generator.setId(null);
+
             generatorService.save(generator);
         }
     }
