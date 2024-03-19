@@ -8,7 +8,6 @@ import com.scarit.web.manager.CacheManager;
 import com.scarit.web.model.dto.generator.GeneratorQueryRequest;
 import com.scarit.web.model.vo.GeneratorVO;
 import io.vertx.core.AbstractVerticle;
-import io.vertx.core.Promise;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerResponse;
 

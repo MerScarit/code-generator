@@ -3,9 +3,6 @@ package com.scarit.web.manager;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.qcloud.cos.COSClient;
-import com.qcloud.cos.exception.CosClientException;
-import com.qcloud.cos.exception.CosServiceException;
-import com.qcloud.cos.exception.MultiObjectDeleteException;
 import com.qcloud.cos.model.*;
 import com.qcloud.cos.transfer.Download;
 import com.qcloud.cos.transfer.TransferManager;
@@ -151,7 +148,7 @@ public class CosManager {
         listObjectsRequest.setBucketName(cosClientConfig.getBucket());
         // prefix 表示列出的对象名以 prefix 为前缀
         // 这里填要列出的目录的相对 bucket 的路径
-        // 预防没加 "/" 后缀导致误删除
+        // 预防没加 "/" 后缀导致误删除，
         delPrifix = StrUtil.appendIfMissing(delPrifix, "/");
         listObjectsRequest.setPrefix(delPrifix);
         // 设置最大遍历出多少个对象, 一次 listobject 最大支持1000
@@ -159,7 +156,6 @@ public class CosManager {
 
         // 保存每次列出的结果
         ObjectListing objectListing = null;
-
 
         do {
 

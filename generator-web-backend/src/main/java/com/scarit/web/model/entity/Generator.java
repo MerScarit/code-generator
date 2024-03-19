@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 帖子
+ * 生成器
  *
  * @author ADI
  */

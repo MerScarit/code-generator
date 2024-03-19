@@ -10,7 +10,7 @@ import com.scarit.web.model.vo.GeneratorVO;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * 帖子服务
+ * 生成器服务
  *
  * @author ADI
  */
@@ -33,7 +33,7 @@ public interface GeneratorService extends IService<Generator> {
     QueryWrapper<Generator> getQueryWrapper(GeneratorQueryRequest generatorQueryRequest);
 
     /**
-     * 获取帖子封装
+     * 获取生成器封装
      *
      * @param generator
      * @param request
@@ -42,7 +42,7 @@ public interface GeneratorService extends IService<Generator> {
     GeneratorVO getGeneratorVO(Generator generator, HttpServletRequest request);
 
     /**
-     * 分页获取帖子封装
+     * 分页获取生成器封装
      *
      * @param GeneratorPage
      * @param request
