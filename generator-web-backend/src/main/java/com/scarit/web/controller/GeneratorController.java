@@ -1,12 +1,8 @@
 package com.scarit.web.controller;
 
-<<<<<<< HEAD
-import cn.hutool.core.date.StopWatch;
-=======
+
 import cn.hutool.core.codec.Base64Encoder;
->>>>>>> 56135e18a72b2c12b68050a6723d759f9569048a
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.lang.TypeReference;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
@@ -38,8 +34,6 @@ import com.scarit.web.service.GeneratorService;
 import com.scarit.web.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -55,7 +49,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 生成器接口
@@ -244,12 +237,6 @@ public class GeneratorController {
         Page<Generator> generatorPage = generatorService.page(new Page<>(current, size), queryWrapper);
         
         Page<GeneratorVO> generatorVOPage = generatorService.getGeneratorVOPage(generatorPage, request);
-<<<<<<< HEAD
-      
-        return ResultUtils.success(generatorVOPage);
-    }
-   
-=======
 
         // 写入多级缓存
         cacheManager.put(pageCacheKey, generatorVOPage);
@@ -258,7 +245,6 @@ public class GeneratorController {
         return ResultUtils.success(generatorVOPage);
     }
 
->>>>>>> 56135e18a72b2c12b68050a6723d759f9569048a
 
     /**
      * 分页获取当前用户创建的资源列表
@@ -440,7 +426,7 @@ public class GeneratorController {
      * @param id
      * @param request
      * @param response
-     * @throws IOException
+     * @throws java.io.IOException
      */
     @GetMapping("/download")
     public void downloadGeneratorById(Long id,HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -501,7 +487,7 @@ public class GeneratorController {
      * @param generatorMakeRequest
      * @param response
      * @param request
-     * @throws IOException
+     * @throws java.io.IOException
      */
     @PostMapping("/make")
     public void makeGenerator(@RequestBody GeneratorMakeRequest generatorMakeRequest, HttpServletResponse response, HttpServletRequest request) throws IOException {
@@ -566,7 +552,7 @@ public class GeneratorController {
         
         // 写入响应
         Files.copy(Paths.get(distZipFilePath), response.getOutputStream());
-        response.getOutputStream().flush();
+        response.getOutputStream().flush(); 
         
         // 7.清理工作空间
         CompletableFuture.runAsync(() -> {
@@ -578,7 +564,7 @@ public class GeneratorController {
      * 文件缓存下载
      *
      * @param generatorCacheRequest
-     * @throws IOException
+     * @throws java.io.IOException
      */
     @PostMapping("/cache")
     @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)

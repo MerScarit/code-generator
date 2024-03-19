@@ -4,7 +4,6 @@ import com.scarit.maker.meta.Meta;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Map;
 
 /**
  * 制作代码生成器亲请求参数
