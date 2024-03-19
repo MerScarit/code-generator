@@ -49,4 +49,6 @@ public interface GeneratorService extends IService<Generator> {
      * @return
      */
     Page<GeneratorVO> getGeneratorVOPage(Page<Generator> GeneratorPage, HttpServletRequest request);
+
+
 }
